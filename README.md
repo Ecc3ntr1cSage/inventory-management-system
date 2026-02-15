@@ -64,3 +64,29 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Local setup (without Laragon)
+
+Follow these steps to run the app locally without Laragon (Windows):
+
+- Ensure PHP 8.2+ and Composer are installed and available in your PATH.
+- From the project root run the setup PowerShell script (creates `.env`, sqlite DB, installs deps, runs migrations):
+
+```powershell
+.\scripts\setup.ps1
+```
+
+- Start the dev server with either:
+
+```powershell
+.\scripts\serve.ps1
+# or
+php artisan serve --host=127.0.0.1 --port=8000
+```
+
+The site will be available at http://127.0.0.1:8000.
+
+Notes:
+- If you prefer MySQL, set `DB_CONNECTION=mysql` and configure DB credentials in `.env`.
+- To compile frontend assets, run `npm install` then `npm run dev` or `npm run build`.
+
