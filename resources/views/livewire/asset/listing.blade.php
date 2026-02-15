@@ -1,21 +1,21 @@
 <x-slot name="header">
-    <h2 class="text-xl font-semibold leading-tight text-gray-800">
+    <h2 class="text-xl font-semibold leading-tight text-foreground">
         {{ __('Senarai Aset Alih') }}
     </h2>
 </x-slot>
 <div class="max-w-xl p-2 mx-auto mt-4 md:p-0" x-data="{ isGrid: true }">
     <div class="flex items-center justify-center gap-2 mb-6">
-        <a href="{{ route('asset.submission') }}" class="px-4 py-2 transition rounded-full hover:bg-gray-300"
+        <a href="{{ route('asset.submission') }}" class="px-4 py-2 transition rounded-full hover:bg-accent"
             wire:navigate>
             {{ __('Senarai Permohonan') }}
         </a>
-        <a href="{{ route('asset.listing') }}" class="px-4 py-2 text-white bg-gray-800 rounded-full" wire:navigate>
+        <a href="{{ route('asset.listing') }}" class="px-4 py-2 text-primary-foreground bg-primary rounded-full" wire:navigate>
             {{ __('Senarai Aset') }}
         </a>
     </div>
     <div class="flex items-center justify-end my-4">
         <div class="flex items-center gap-2">
-            <button x-on:click="isGrid = !isGrid" class="p-1 rounded-md hover:bg-neutral-200">
+            <button x-on:click="isGrid = !isGrid" class="p-1 rounded-md hover:bg-accent">
                 <svg x-cloak x-show="isGrid" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -29,7 +29,7 @@
             </button>
             @can('admin')
             <button x-on:click.prevent="$dispatch('open-modal', 'add-asset')"
-                class="p-1 transition bg-white rounded-md shadow-md hover:scale-110">
+                class="p-1 transition bg-card rounded-md shadow-md hover:scale-110">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="h-6 p-1 rounded-md bg-w-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -64,21 +64,21 @@
         </div>
     </div>
     <p>Aset Tersedia</p>
-    <hr class="w-full h-1 mt-2 bg-gray-800" />
+    <hr class="w-full h-1 mt-2 bg-primary" />
     <div :class="isGrid ? 'grid md:grid-cols-3 grid-cols-2' : 'flex flex-col'" class="gap-3 my-4">
         @foreach($available_assets as $asset)
         <a href="{{ route('asset.record', $asset->id) }}" wire:navigate
-            class="p-3 text-xs transition bg-white rounded-md shadow-xl cursor-pointer hover:ring-2 hover:ring-indigo-400">
+            class="p-3 text-xs transition bg-card rounded-md shadow-xl cursor-pointer hover:ring-2 hover:ring-ring">
             {{ $asset->name }}
         </a>
         @endforeach
     </div>
     <p>Aset Sedang Dipinjam</p>
-    <hr class="w-full h-1 mt-2 bg-gray-800" />
+    <hr class="w-full h-1 mt-2 bg-primary" />
     <div :class="isGrid ? 'grid md:grid-cols-3 grid-cols-2' : 'flex flex-col'" class="gap-3 my-4">
         @foreach($unavailable_assets as $asset)
         <a href="{{ route('asset.record', $asset->id) }}" wire:navigate
-            class="p-3 text-xs transition bg-white rounded-md shadow-xl cursor-pointer hover:ring-2 hover:ring-indigo-400">
+            class="p-3 text-xs transition bg-card rounded-md shadow-xl cursor-pointer hover:ring-2 hover:ring-ring">
             {{ $asset->name }}
         </a>
         @endforeach

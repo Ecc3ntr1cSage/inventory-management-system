@@ -16,13 +16,13 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="font-sans text-sm antialiased selection:bg-indigo-500 selection:text-white scroll-smooth">
-    <div class="min-h-screen pb-12 bg-gray-100">
+<body class="font-sans text-sm antialiased selection:bg-primary selection:text-primary-foreground scroll-smooth">
+    <div class="min-h-screen pb-12 bg-background">
         <livewire:layout.navigation />
         <x-flash />
         <!-- Page Heading -->
         @if (isset($header))
-        <header class="bg-white shadow">
+        <header class="bg-card shadow">
             <div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
                 {{ $header }}
             </div>

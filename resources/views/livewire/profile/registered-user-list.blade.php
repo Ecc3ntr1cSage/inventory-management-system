@@ -34,17 +34,17 @@ new class extends Component
 
 <section>
     <header>
-        <h2 class="text-lg font-medium text-gray-900">
+        <h2 class="text-lg font-medium text-foreground">
             {{ __('Registered Users') }}
         </h2>
 
-        <p class="mt-1 text-gray-600">
+        <p class="mt-1 text-muted-foreground">
             {{ __('Exclusively for administrator to view and manage registered accounts.') }}
         </p>
     </header>
     <div class="overflow-x-auto">
-        <table class="w-full my-4 text-xs text-left text-gray-800 rounded-lg table-auto">
-            <thead class="text-xs font-medium uppercase border-b-2 border-neutral-300 bg-neutral-200">
+        <table class="w-full my-4 text-xs text-left text-foreground rounded-lg table-auto">
+            <thead class="text-xs font-medium uppercase border-b-2 border-border bg-muted">
                 <tr>
                     <th class="px-2 py-2 tracking-wide ">
                         Name
@@ -63,9 +63,9 @@ new class extends Component
                     </th>
                 </tr>
             </thead>
-            <tbody class="bg-neutral-150">
+            <tbody class="bg-card">
                 @foreach($users as $user)
-                <tr wire:key="{{ $user->id }}" class="transition hover:bg-neutral-200">
+                <tr wire:key="{{ $user->id }}" class="transition hover:bg-accent">
                     <td class="px-2 py-2">
                         {{ $user->name }}
                     </td>
@@ -83,7 +83,7 @@ new class extends Component
                         @else
                         <button type="button"
                             x-on:click.prevent="$dispatch('open-modal', 'delete-user-confirmation-{{ $user->id }}')"
-                            class="p-1 rounded-full hover:bg-rose-500/50">
+                            class="p-1 rounded-full hover:bg-destructive/50">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                 stroke="currentColor" class="w-4 h-4">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -95,11 +95,11 @@ new class extends Component
                             maxWidth="md">
                             <form wire:submit="deleteUser({{ $user->id }})" class="p-6">
                                 @csrf
-                                <h2 class="text-lg font-medium text-gray-900">
+                                <h2 class="text-lg font-medium text-foreground">
                                     {{ __('Delete User COnfirmation?') }}
                                 </h2>
 
-                                <p class="mt-1 text-gray-600">
+                                <p class="mt-1 text-muted-foreground">
                                     {{ __('Please enter your password to confirm administrator permission.') }}
                                 </p>
 

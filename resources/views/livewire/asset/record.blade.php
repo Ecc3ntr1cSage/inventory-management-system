@@ -1,15 +1,15 @@
 <x-slot name="header">
-    <h2 class="text-xl font-semibold leading-tight text-gray-800">
+    <h2 class="text-xl font-semibold leading-tight text-foreground">
         {{ $asset->name }} | {{ $asset->model }} | {{ $asset->registration_no }}
     </h2>
 </x-slot>
 <div class="max-w-5xl p-2 mx-auto my-4 space-y-3 md:p-0">
     <div class="flex items-center justify-center gap-2 mb-6">
-        <a href="{{ route('asset.submission') }}" class="px-4 py-2 transition rounded-full hover:bg-gray-300"
+        <a href="{{ route('asset.submission') }}" class="px-4 py-2 transition rounded-full hover:bg-accent"
             wire:navigate>
             {{ __('Senarai Permohonan') }}
         </a>
-        <a href="{{ route('asset.listing') }}" class="px-4 py-2 text-white bg-gray-800 rounded-full" wire:navigate>
+        <a href="{{ route('asset.listing') }}" class="px-4 py-2 text-primary-foreground bg-primary rounded-full" wire:navigate>
             {{ __('Senarai Aset') }}
         </a>
     </div>
@@ -17,7 +17,7 @@
         <a href="{{ route('asset.listing') }}" wire:navigate>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor"
-                class="p-1 transition-all rounded-full w-7 h-7 hover:bg-gray-300 hover:-translate-x-1">
+                class="p-1 transition-all rounded-full w-7 h-7 hover:bg-accent hover:-translate-x-1">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
             </svg>
         </a>
@@ -28,7 +28,7 @@
             </x-primary-button>
             @can('admin')
             <button x-on:click.prevent="$dispatch('open-modal', 'delete-asset-confirmation')"
-                class="p-1 text-white bg-red-500 rounded-md hover:bg-red-400">
+                class="p-1 text-destructive-foreground bg-destructive rounded-md hover:bg-destructive/90">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -37,7 +37,7 @@
             </button>
             <x-modal name="delete-asset-confirmation" maxWidth="sm">
                 <div class="p-6">
-                    <h2 class="text-base font-medium text-gray-900">
+                    <h2 class="text-base font-medium text-foreground">
                         {{ __('Confirm Asset Deletion') }}
                     </h2>
                     <div class="flex items-center justify-end gap-2 mt-4">
@@ -54,12 +54,12 @@
         </div>
     </div>
     <div class="my-4 overflow-x-auto rounded-lg" x-data="checkboxes">
-        <table class="w-full mb-4 text-xs text-left text-gray-800 rounded-lg table-auto">
-            <thead class="text-xs font-medium uppercase bg-gray-200 border-b-2 border-gray-400">
+        <table class="w-full mb-4 text-xs text-left text-foreground rounded-lg table-auto">
+            <thead class="text-xs font-medium uppercase bg-muted border-b-2 border-border">
                 <tr>
                     <th class="px-2 py-2 tracking-wide">
                         <input type="checkbox" wire:model.live="selectAll"
-                            class="text-indigo-500 bg-gray-100 border-gray-400 rounded focus:ring-indigo-500 focus:ring-2" />
+                            class="text-primary bg-input border-input rounded focus:ring-ring focus:ring-2" />
                     </th>
                     <th class="px-2 py-2 tracking-wide ">
                         Tarikh (Pinjam - Pulang)
@@ -86,10 +86,10 @@
             </thead>
             <tbody>
                 @foreach($applications as $application)
-                <tr wire:key="{{ $application->id }}" class="transition hover:bg-gray-200">
+                <tr wire:key="{{ $application->id }}" class="transition hover:bg-accent">
                     <td class="px-2 py-2">
                         <input type="checkbox" wire:model.live="selectedApplications" value="{{ $application->id }}"
-                            class="text-indigo-500 bg-gray-100 border-gray-400 rounded focus:ring-indigo-500 focus:ring-2" />
+                            class="text-primary bg-input border-input rounded focus:ring-ring focus:ring-2" />
                     </td>
                     <td class="px-2 py-2">
                         {{ $application->date_issued }} - {{ $application->date_returned }}

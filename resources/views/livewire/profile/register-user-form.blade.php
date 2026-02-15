@@ -60,10 +60,10 @@ new class extends Component
 
 <section>
     <header>
-        <h2 class="text-lg font-medium text-gray-900">
+        <h2 class="text-lg font-medium text-foreground">
             {{ __('Register New User') }}
         </h2>
-        <p class="mt-1 text-gray-600">
+        <p class="mt-1 text-muted-foreground">
             {{ __('Exclusively for administrator to register new account.') }}
         </p>
     </header>
@@ -82,7 +82,7 @@ new class extends Component
         </div>
         <div>
             <x-input-label for="role" :value="__('Role')" />
-            <select wire:model="role" class="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+            <select wire:model="role" class="block w-full border-border rounded-md shadow-sm focus:border-ring focus:ring-ring">
                 <option value="" selected disabled>Select role</option>
                 <option value="admin">Admin</option>
                 <option value="staff">Staff</option>
@@ -107,10 +107,10 @@ new class extends Component
         <x-modal name="register-user-confirmation" :show="$errors->isNotEmpty()" focusable
             maxWidth="md">
             <div class="p-6">
-                <h2 class="text-lg font-medium text-gray-900">
+                <h2 class="text-lg font-medium text-foreground">
                     {{ __('Register User Confirmation?') }}
                 </h2>
-                <p class="mt-1 text-gray-600">
+                <p class="mt-1 text-muted-foreground">
                     {{ __('Please enter your password to confirm administrator permission.') }}
                 </p>
                 <div class="mt-6">

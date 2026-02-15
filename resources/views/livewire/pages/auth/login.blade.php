@@ -50,21 +50,21 @@ new #[Layout('layouts.guest')] class extends Component
         {{-- <div class="block mt-4">
             <label for="remember" class="inline-flex items-center">
                 <input wire:model="form.remember" id="remember" type="checkbox"
-                    class="text-indigo-600 border-gray-300 rounded shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="text-gray-600 ms-2">{{ __('Remember me') }}</span>
+                    class="text-ring border-border rounded shadow-sm focus:ring-ring" name="remember">
+                <span class="text-muted-foreground ms-2">{{ __('Remember me') }}</span>
             </label>
         </div> --}}
 
         <div class="flex items-center justify-end mt-4">
             @if (Route::has('password.request'))
             {{-- <a
-                class="text-gray-600 underline rounded-md hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                class="text-muted-foreground underline rounded-md hover:text-foreground focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ring"
                 href="{{ route('password.request') }}" wire:navigate>
                 {{ __('Forgot your password?') }}
             </a>--}}
             @endif
 
-            <a class="text-gray-600 underline rounded-md hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            <a class="text-muted-foreground underline rounded-md hover:text-foreground focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ring"
                 href="{{ route('register') }}" wire:navigate>
                 {{ __('Daftar Akaun') }}
             </a>

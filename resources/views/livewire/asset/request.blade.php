@@ -1,5 +1,5 @@
 <x-slot name="header">
-    <h2 class="text-xl font-semibold leading-tight text-gray-800">
+    <h2 class="text-xl font-semibold leading-tight text-foreground">
         {{ __('Permohonan Peralatan IT') }}
     </h2>
 </x-slot>
@@ -12,8 +12,8 @@
                 Permohonan anda telah diluluskan, sila berkunjung ke Unit IT untuk mengambil peralatan.
             </div>
             @endif
-            <table class="w-full mb-4 text-xs text-left text-gray-800 border-separate table-auto border-spacing-y-2">
-                <thead class="text-xs font-medium uppercase bg-gray-300">
+            <table class="w-full mb-4 text-xs text-left text-foreground border-separate table-auto border-spacing-y-2">
+                <thead class="text-xs font-medium uppercase bg-muted">
                     <tr class="tracking-wide">
                         <th class="px-3 py-4 rounded-l-lg">
                             Tarikh Mohon
@@ -38,7 +38,7 @@
                 <tbody>
                     @foreach($applications as $application)
                     <tr wire:key="{{ $application->id }}"
-                        class="transition bg-gray-200 rounded-lg hover:ring-2 hover:ring-indigo-500 ring-offset-2">
+                        class="transition bg-card rounded-lg hover:ring-2 hover:ring-ring ring-offset-2">
                         <td class="p-3 rounded-l-lg">
                             {{ $application->application_date }}
                         </td>

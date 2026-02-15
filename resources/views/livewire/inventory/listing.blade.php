@@ -1,15 +1,15 @@
 <x-slot name="header">
-    <h2 class="text-xl font-semibold leading-tight text-gray-800">
+    <h2 class="text-xl font-semibold leading-tight text-foreground">
         {{ __('Senarai Inventori') }}
     </h2>
 </x-slot>
 <div class="max-w-xl p-2 mx-auto mt-4 md:p-0" x-data="{ isGrid: true }">
     <div x-data class="flex items-center justify-center gap-2 mb-6">
-        <a href="{{ route('inventory.entry') }}" class="px-4 py-2 transition rounded-full hover:bg-gray-300"
+        <a href="{{ route('inventory.entry') }}" class="px-4 py-2 transition rounded-full hover:bg-accent"
             wire:navigate>
             {{ __('Kemasukan/Keluaran') }}
         </a>
-        <a href="{{ route('inventory.listing') }}" class="px-4 py-2 text-white bg-gray-800 rounded-full" wire:navigate>
+        <a href="{{ route('inventory.listing') }}" class="px-4 py-2 text-primary-foreground bg-primary rounded-full" wire:navigate>
             {{ __('Senarai Inventori') }}
         </a>
     </div>
@@ -17,7 +17,7 @@
         <x-text-input class="w-48 text-xs" placeholder="Cari stok" wire:model.live.debounce.500ms="search"
             type="text" />
         <div class="flex items-center gap-2">
-            <button class="p-1 rounded-md hover:bg-neutral-200">
+            <button class="p-1 rounded-md hover:bg-accent">
                 @if ($this->direction == 'desc')
                 <svg wire:click="sort('asc')" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                     stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -32,7 +32,7 @@
                 </svg>
                 @endif
             </button>
-            <button x-on:click="isGrid = !isGrid" class="p-1 rounded-md hover:bg-neutral-200">
+            <button x-on:click="isGrid = !isGrid" class="p-1 rounded-md hover:bg-accent">
                 <svg x-cloak x-show="isGrid" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -49,7 +49,7 @@
     <div :class="isGrid ? 'grid md:grid-cols-3 grid-cols-2' : 'flex flex-col'" class="gap-3 mb-4">
         @foreach($stocks as $stock)
         <a href="{{ route('inventory.record', $stock->id) }}" wire:navigate
-            class="p-3 text-xs transition bg-white rounded-md shadow-xl cursor-pointer hover:ring-2 hover:ring-indigo-400">
+            class="p-3 text-xs transition bg-card rounded-md shadow-xl cursor-pointer hover:ring-2 hover:ring-ring">
             {{ $stock->name }}
         </a>
         @endforeach
