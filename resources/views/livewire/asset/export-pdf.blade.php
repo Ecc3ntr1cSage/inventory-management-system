@@ -56,7 +56,7 @@
                     Nama Pemohon:
                 </td>
                 <td>
-                    {{ $application->user->name }}
+                    {{ $application->user->name ?? $application->guest_name }}
                 </td>
                 <td>
                     Tujuan:
@@ -171,7 +171,7 @@
                     <br />
                     <p>......................................</p>
                     <p>(Tandangan Peminjam)</p>
-                    <p>Nama: {{ $application->user->name }}</p>
+                    <p>Nama: {{ $application->user->name ?? $application->guest_name }}</p>
                     <p>Jawatan: {{ $application->position }}</p>
                     <p>Tarikh: {{ $application->date_issued }}</p>
                 </td>
@@ -189,7 +189,7 @@
                     <br />
                     <p>......................................</p>
                     <p>(Tandangan Pemulang)</p>
-                    <p>Nama: {{ $application->user->name }}</p>
+                    <p>Nama: {{ $application->user->name ?? $application->guest_name }}</p>
                     <p>Jawatan: {{ $application->position }}</p>
                     <p>Tarikh: {{ $application->date_returned }}</p>
                 </td>

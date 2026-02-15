@@ -59,7 +59,7 @@
                             {{ $application->application_date }}
                         </td>
                         <td class="p-4 border-y border-border/50">
-                            <div class="font-bold text-foreground">{{ $application->user->name }}</div>
+                            <div class="font-bold text-foreground">{{ $application->user->name ?? $application->guest_name }}</div>
                         </td>
                         <td class="p-4 border-y border-border/50 font-medium">
                             {{ $application->description }}
@@ -239,7 +239,7 @@
                             </div>
                         </td>
                         <td class="p-4 border-y border-border/50">
-                            <div class="font-bold text-foreground">{{ $application->user->name }}</div>
+                            <div class="font-bold text-foreground">{{ $application->user->name ?? $application->guest_name }}</div>
                         </td>
                         <td class="p-4 border-y border-border/50">
                             <div class="flex flex-col">

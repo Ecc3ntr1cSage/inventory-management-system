@@ -86,7 +86,7 @@
                         {{ $application->date_issued }} - {{ $application->date_returned }}
                     </td>
                     <td class="px-2 py-2">
-                        {{ $application->user->name }}
+                        {{ $application->user->name ?? $application->guest_name }}
                     </td>
                     <td class="px-2 py-2 text-center">
                         {{ $application->position }}/{{ $application->department }}

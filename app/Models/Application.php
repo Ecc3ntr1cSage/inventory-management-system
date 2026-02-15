@@ -18,6 +18,8 @@ class Application extends Model
         'position',
         'department',
         'location',
+        'guest_name',
+        'guest_email',
         'application_date',
         'date_issued',
         'date_returned',

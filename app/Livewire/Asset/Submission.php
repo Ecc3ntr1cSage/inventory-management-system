@@ -87,3 +87,4 @@ class Submission extends Component
         return view('livewire.asset.submission', compact('pending_applications', 'approved_applications'));
     }
 }
+

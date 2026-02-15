@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('applications', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('asset_id')->nullable();
+            $table->string('guest_name')->nullable()->after('user_id');
+            $table->string('guest_email')->nullable()->after('guest_name');
             $table->string('description');
             $table->string('reason');
             $table->string('position');
@@ -28,7 +30,7 @@ return new class extends Migration
             $table->integer('status')->default(0);
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('asset_id')->references('id')->on('assets')->onDelete('cascade');
             $table->index('user_id');
             $table->index('asset_id');

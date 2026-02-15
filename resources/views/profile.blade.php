@@ -21,9 +21,29 @@
 
             <div class="p-4 bg-white shadow sm:p-8 sm:rounded-lg">
                 <div class="max-w-xl">
-                    <livewire:profile.registered-user-list />
+                    <header>
+                        <h2 class="text-lg font-medium text-foreground">
+                            {{ __('Registered Users') }}
+                        </h2>
+
+                        <p class="mt-1 text-muted-foreground">
+                            {{ __('View and manage registered accounts.') }}
+                        </p>
+                    </header>
+                    
+                    <div class="mt-4">
+                        <x-primary-button class="px-4 py-2" x-data="" x-on:click.prevent="$dispatch('open-modal', 'registered-users-list')">
+                            {{ __('View Registered Users') }}
+                        </x-primary-button>
+                    </div>
                 </div>
             </div>
+
+            <x-modal name="registered-users-list" maxWidth="2xl">
+                <div class="p-6">
+                    <livewire:profile.registered-user-list />
+                </div>
+            </x-modal>
             @endcan
 
             <div class="p-4 bg-white shadow sm:p-8 sm:rounded-lg">

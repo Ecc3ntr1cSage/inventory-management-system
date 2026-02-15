@@ -3,7 +3,7 @@
         {{ __('Senarai Inventori') }}
     </h2>
 </x-slot>
-<div class="max-w-4xl p-2 mx-auto mt-6 space-y-3 md:p-0">
+<div class="max-w-3xl p-2 mx-auto mt-6 space-y-3 md:p-0">
         <div class="flex items-center justify-center p-1 mb-8 bg-muted rounded-xl w-fit mx-auto shadow-sm border border-border/50">
         <a href="{{ route('inventory.entry') }}" 
             class="px-6 py-2.5 text-sm font-semibold transition-all duration-200 rounded-lg {{ request()->routeIs('inventory.entry') ? 'bg-background text-primary shadow-sm border border-border/50' : 'text-muted-foreground hover:text-foreground hover:bg-background/50' }}" 
@@ -21,7 +21,7 @@
             type="text" />
         <div class="flex items-center gap-2">
             <button class="p-1 rounded-md hover:bg-accent">
-                @if ($this->direction == 'desc')
+                @if ($direction == 'desc')
                 <svg wire:click="sort('asc')" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                     stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round"

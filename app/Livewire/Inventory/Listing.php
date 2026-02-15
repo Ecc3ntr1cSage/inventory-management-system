@@ -34,3 +34,4 @@ class Listing extends Component
         return view('livewire.inventory.listing', compact('stocks'));
     }
 }
+

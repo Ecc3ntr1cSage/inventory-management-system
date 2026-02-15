@@ -33,15 +33,6 @@ new class extends Component
 }; ?>
 
 <section>
-    <header>
-        <h2 class="text-lg font-medium text-foreground">
-            {{ __('Registered Users') }}
-        </h2>
-
-        <p class="mt-1 text-muted-foreground">
-            {{ __('Exclusively for administrator to view and manage registered accounts.') }}
-        </p>
-    </header>
     <div class="overflow-x-auto">
         <table class="w-full my-4 text-xs text-left text-foreground rounded-lg table-auto">
             <thead class="text-xs font-medium uppercase border-b-2 border-border bg-muted">

@@ -22,6 +22,15 @@ class Record extends Component
         $this->asset = Asset::findOrFail($id);
     }
 
+    public function __invoke(...$params)
+    {
+        if (method_exists($this, 'mount')) {
+            $this->mount(...$params);
+        }
+
+        return $this->render();
+    }
+
     public function updatedSelectAll($value)
     {
         if ($value) {
@@ -69,3 +78,4 @@ class Record extends Component
         return view('livewire.asset.record', compact('applications'));
     }
 }
+

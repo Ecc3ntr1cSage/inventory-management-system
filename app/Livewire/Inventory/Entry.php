@@ -113,6 +113,7 @@ class Entry extends Component
         $stocks = Stock::get();
         $this->stocks = $stocks->pluck('name', 'id')->toJson();
 
-        return view('livewire.inventory.entry');
+        return view('livewire.inventory.entry', compact('stocks'));
     }
 }
+

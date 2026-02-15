@@ -91,3 +91,4 @@ class Record extends Component
         return view('livewire.inventory.record', compact('indexes'));
     }
 }
+

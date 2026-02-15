@@ -73,5 +73,13 @@ new #[Layout('layouts.guest')] class extends Component
                 {{ __('Log in') }}
             </x-primary-button>
         </div>
+
+        <div class="mt-4">
+            <div class="my-4 border-t border-border"></div>
+                <a href="{{ url('guest/request') }}" wire:navigate
+                class="w-full inline-flex justify-center items-center rounded-md h-8 border border-primary text-primary shadow-sm hover:bg-primary/5">
+                {{ __('Buat Permohonan') }}
+            </a>
+        </div>
     </form>
 </div>

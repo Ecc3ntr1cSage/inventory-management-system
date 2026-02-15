@@ -55,6 +55,7 @@ new class extends Component
             </div>
 
             <!-- Settings Dropdown -->
+            @auth
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
@@ -88,6 +89,7 @@ new class extends Component
                     </x-slot>
                 </x-dropdown>
             </div>
+            @endauth
 
             <!-- Hamburger -->
             <div class="flex items-center -me-2 sm:hidden">
@@ -122,6 +124,7 @@ new class extends Component
         </div>
 
         <!-- Responsive Settings Options -->
+        @auth
         <div class="pt-4 pb-1 border-t border-border">
             <div class="px-4">
                 <div class="text-base font-medium text-foreground"
@@ -143,5 +146,6 @@ new class extends Component
                 </button>
             </div>
         </div>
+        @endauth
     </div>
 </nav>

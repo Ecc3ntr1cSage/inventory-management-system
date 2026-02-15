@@ -21,7 +21,7 @@
         <div class="relative text-foreground" x-data="select({{ $stocks }})" @click.away="close()">
             <p class="block mb-1 font-medium text-foreground">Perihal Stok *</p>
             <div class="flex items-center gap-2">
-                <input type="text" x-model="selectedkey" name="selectfield" id="selectfield" class="hidden">
+                <input type="hidden" id="selectfield" wire:model="stock_id">
                 <div class="relative inline-block w-full rounded-md shadow-sm"
                     @click="toggle(); $nextTick(() => $refs.filterinput.focus());">
                     <button type="button" autofocus
@@ -55,7 +55,7 @@
                         <li @click="select(value, key)" :class="{'bg-accent': isselected(key)}"
                             class="relative py-1 pl-3 mb-1 text-foreground rounded-md cursor-pointer select-none pr-9 hover:bg-accent">
                             <span x-text="value" class="block font-normal truncate"></span>
-                            <span x-show="isselected(key)"
+                                <span x-show="isselected(key)"
                                 class="absolute inset-y-0 right-0 flex items-center pr-4 text-foreground">
                                 <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd"
@@ -127,7 +127,7 @@
             state: false,
             filter: '',
             list: stocks,
-            selectedkey: @entangle('stock_id'),
+            selectedkey: null,
             selectedlabel: null,
             toggle: function() {
                 this.state = !this.state;
@@ -140,10 +140,21 @@
                 if (this.selectedkey == key) {
                     this.selectedlabel = null;
                     this.selectedkey = null;
+                    // update hidden wire:model input and dispatch input event for Livewire
+                    const input = document.getElementById('selectfield');
+                    if (input) {
+                        input.value = '';
+                        input.dispatchEvent(new Event('input'));
+                    }
                 } else {
                     this.selectedlabel = value;
                     this.selectedkey = key;
                     this.state = false;
+                    const input = document.getElementById('selectfield');
+                    if (input) {
+                        input.value = key;
+                        input.dispatchEvent(new Event('input'));
+                    }
                 }
             },
             isselected: function(key) {
