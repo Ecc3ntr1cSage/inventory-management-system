@@ -3,7 +3,7 @@
         {{ $stock->name }}
     </h2>
 </x-slot>
-<div class="max-w-5xl p-2 mx-auto my-4 space-y-3 md:p-0">
+<div class="max-w-5xl p-2 mx-auto my-8 space-y-3 md:p-0">
     <div class="w-fit">
         <a href="{{ route('inventory.listing') }}" wire:navigate>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"

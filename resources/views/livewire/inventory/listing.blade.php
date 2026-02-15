@@ -3,8 +3,8 @@
         {{ __('Senarai Inventori') }}
     </h2>
 </x-slot>
-<div class="max-w-5xl p-2 mx-auto my-4 space-y-3 md:p-0">
-    <div class="flex items-center justify-center p-1 mb-8 bg-muted rounded-xl w-fit mx-auto shadow-sm border border-border/50">
+<div class="max-w-4xl p-2 mx-auto mt-6 space-y-3 md:p-0">
+        <div class="flex items-center justify-center p-1 mb-8 bg-muted rounded-xl w-fit mx-auto shadow-sm border border-border/50">
         <a href="{{ route('inventory.entry') }}" 
             class="px-6 py-2.5 text-sm font-semibold transition-all duration-200 rounded-lg {{ request()->routeIs('inventory.entry') ? 'bg-background text-primary shadow-sm border border-border/50' : 'text-muted-foreground hover:text-foreground hover:bg-background/50' }}" 
             wire:navigate>
@@ -16,9 +16,8 @@
             {{ __('Senarai Inventori') }}
         </a>
     </div>
-
     <div class="flex items-center justify-between my-4">
-        <x-text-input class="w-48 text-xs" placeholder="Cari stok" wire:model.live.debounce.500ms="search"
+        <x-text-input class="w-96 text-md" placeholder="Cari stok" wire:model.live.debounce.500ms="search"
             type="text" />
         <div class="flex items-center gap-2">
             <button class="p-1 rounded-md hover:bg-accent">
