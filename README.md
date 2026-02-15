@@ -7,86 +7,147 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+# Inventory Management System
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+A Laravel-based inventory management application using Livewire for dynamic interfaces. It manages stocks, assets, and user roles (admin, staff, user).
 
--   [Simple, fast routing engine](https://laravel.com/docs/routing).
--   [Powerful dependency injection container](https://laravel.com/docs/container).
--   Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
--   Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
--   Database agnostic [schema migrations](https://laravel.com/docs/migrations).
--   [Robust background job processing](https://laravel.com/docs/queues).
--   [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Prerequisites
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **PHP 8.2+**: Download from [php.net](https://www.php.net/downloads). Enable extensions: `pdo_sqlite`, `pdo_mysql`, `mbstring`, `openssl`, `fileinfo`, `gd`.
+- **Composer**: Install from [getcomposer.org](https://getcomposer.org/download/).
+- **Node.js 18+ and npm**: Install from [nodejs.org](https://nodejs.org/).
+- **Git**: For cloning the repository.
+- **Database**: SQLite (default, file-based) or MySQL/MariaDB.
 
-## Learning Laravel
+## Local Setup (Windows)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Follow these steps to run the application locally on Windows.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
--   **[Vehikl](https://vehikl.com/)**
--   **[Tighten Co.](https://tighten.co)**
--   **[WebReinvent](https://webreinvent.com/)**
--   **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
--   **[64 Robots](https://64robots.com)**
--   **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
--   **[Cyber-Duck](https://cyber-duck.co.uk)**
--   **[DevSquad](https://devsquad.com/hire-laravel-developers)**
--   **[Jump24](https://jump24.co.uk)**
--   **[Redberry](https://redberry.international/laravel/)**
--   **[Active Logic](https://activelogic.com)**
--   **[byte5](https://byte5.de)**
--   **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-
-## Local setup (without Laragon)
-
-Follow these steps to run the app locally without Laragon (Windows):
-
-- Ensure PHP 8.2+ and Composer are installed and available in your PATH.
-- From the project root run the setup PowerShell script (creates `.env`, sqlite DB, installs deps, runs migrations):
-
-```powershell
-.\scripts\setup.ps1
+### 1. Clone the Repository
+```bash
+git clone <repository-url> inventory-management-system
+cd inventory-management-system
 ```
 
-- Start the dev server with either:
+### 2. Install PHP Dependencies
+Run Composer to install Laravel dependencies:
+```bash
+composer install
+```
 
-```powershell
-.\scripts\serve.ps1
-# or
+### 3. Configure Environment
+- Copy `.env.example` to `.env`:
+  ```bash
+  cp .env.example .env
+  ```
+- Edit `.env`:
+  - For SQLite (default):
+    ```
+    DB_CONNECTION=sqlite
+    DB_DATABASE=database/database.sqlite
+    ```
+  - For MySQL:
+    ```
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=invms
+    DB_USERNAME=your_username
+    DB_PASSWORD=your_password
+    ```
+  - Set other values like `APP_NAME=Inventory Management System`, `APP_URL=http://localhost:8000`.
+
+### 4. Generate Application Key
+```bash
+php artisan key:generate
+```
+
+### 5. Set Up Database
+- If using SQLite, create the database file and run migrations:
+  ```bash
+  php artisan migrate --seed
+  ```
+  This populates initial data (users: admin@gmail.com/12345678, staff@gmail.com/12345678, user@gmail.com/12345678; stocks and assets from [database/seeders/DatabaseSeeder.php](database/seeders/DatabaseSeeder.php)).
+- If using MySQL, create the database manually, then run:
+  ```bash
+  php artisan migrate --seed
+  ```
+
+### 6. Install and Build Frontend Assets
+```bash
+npm install
+npm run build  # For production, or npm run dev for development
+```
+
+### 7. Start the Development Server
+```bash
 php artisan serve --host=127.0.0.1 --port=8000
 ```
+- Access the app at `http://127.0.0.1:8000`.
+- Log in with seeded users (e.g., admin role for full access).
 
-The site will be available at http://127.0.0.1:8000.
+### 8. Optional: Run in Development Mode
+- For hot reloading assets: `npm run dev` in a separate terminal.
+- Clear caches if needed: `php artisan config:clear`, `php artisan cache:clear`.
 
-Notes:
-- If you prefer MySQL, set `DB_CONNECTION=mysql` and configure DB credentials in `.env`.
-- To compile frontend assets, run `npm install` then `npm run dev` or `npm run build`.
+## Deployment on Windows Server (On-Premises)
+
+Deploy to any Windows Server version (e.g., 2012, 2016, 2019, 2022) using IIS. Assumes administrative access.
+
+### 1. Prepare the Server
+- Install IIS: Via Server Manager > Add Roles and Features > Web Server (IIS).
+- Install required IIS modules: CGI, URL Rewrite (download from [iis.net](https://www.iis.net/downloads/microsoft/url-rewrite)).
+- Install PHP 8.2+ (non-thread-safe): Extract to `C:\php`, add to PATH. Enable extensions in `php.ini`.
+- Install Composer and Node.js (as above).
+- Install database: SQLite (no setup needed) or MySQL/MariaDB.
+
+### 2. Deploy the Application
+- Clone or upload code to `C:\inetpub\wwwroot\inventory-management-system`:
+  ```bash
+  git clone <repository-url> C:\inetpub\wwwroot\inventory-management-system
+  cd C:\inetpub\wwwroot\inventory-management-system
+  ```
+- Install dependencies:
+  ```bash
+  composer install --no-dev --optimize-autoloader
+  npm install && npm run build
+  ```
+- Configure `.env` (as in local setup, but set `APP_ENV=production`, `APP_URL=https://your-domain.com`).
+- Generate key and set up database:
+  ```bash
+  php artisan key:generate
+  php artisan migrate --seed
+  ```
+- Cache for production:
+  ```bash
+  php artisan config:cache
+  php artisan route:cache
+  php artisan view:cache
+  ```
+
+### 3. Configure IIS
+- Create a new site in IIS Manager pointing to `C:\inetpub\wwwroot\inventory-management-system\public`.
+- Add handler mapping: `*.php` to `C:\php\php-cgi.exe`.
+- Add URL Rewrite rule: Rewrite `^(.*)$` to `index.php/$1`.
+- Set default document to `index.php`.
+- Grant IIS_IUSRS read/write to `storage/`, `bootstrap/cache/`, and database file (if SQLite).
+
+### 4. Additional Configurations
+- **SSL**: Install certificate via IIS Manager for HTTPS.
+- **Queues**: If using queues, schedule `php artisan queue:work` via Task Scheduler.
+- **Firewall**: Allow ports 80/443.
+- **Backup**: Schedule backups for database and code.
+
+### 5. Testing
+- Access via server IP/domain.
+- Test login and features (e.g., inventory entry, asset requests).
+- Monitor logs in `storage/logs/laravel.log`.
+
+## Troubleshooting
+- **PHP Errors**: Check `php.ini` extensions and IIS logs.
+- **Database Issues**: Verify credentials and service status.
+- **Assets Not Loading**: Run `npm run build` and clear browser cache.
+- **Permissions**: Ensure IIS has access to files.
+
+For more, see [Laravel Docs](https://laravel.com/docs).
 
