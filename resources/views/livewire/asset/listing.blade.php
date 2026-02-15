@@ -3,35 +3,27 @@
         {{ __('Senarai Aset Alih') }}
     </h2>
 </x-slot>
-<div class="max-w-xl p-2 mx-auto mt-4 md:p-0" x-data="{ isGrid: true }">
-    <div class="flex items-center justify-center gap-2 mb-6">
-        <a href="{{ route('asset.submission') }}" class="px-4 py-2 transition rounded-full hover:bg-accent"
+<div class="max-w-5xl p-2 mx-auto my-4 space-y-3 md:p-0" x-data="{ selected:1 }">
+    <div class="flex items-center justify-center p-1 mb-8 bg-muted rounded-xl w-fit mx-auto shadow-sm border border-border/50">
+        <a href="{{ route('asset.submission') }}" 
+            class="px-6 py-2.5 text-sm font-semibold transition-all duration-200 rounded-lg {{ request()->routeIs('asset.submission') ? 'bg-background text-primary shadow-sm border border-border/50' : 'text-muted-foreground hover:text-foreground hover:bg-background/50' }}" 
             wire:navigate>
             {{ __('Senarai Permohonan') }}
         </a>
-        <a href="{{ route('asset.listing') }}" class="px-4 py-2 text-primary-foreground bg-primary rounded-full" wire:navigate>
+        <a href="{{ route('asset.listing') }}" 
+            class="px-6 py-2.5 text-sm font-semibold transition-all duration-200 rounded-lg {{ request()->routeIs('asset.listing') ? 'bg-background text-primary shadow-sm border border-border/50' : 'text-muted-foreground hover:text-foreground hover:bg-background/50' }}"
+            wire:navigate>
             {{ __('Senarai Aset') }}
         </a>
     </div>
+
     <div class="flex items-center justify-end my-4">
         <div class="flex items-center gap-2">
-            <button x-on:click="isGrid = !isGrid" class="p-1 rounded-md hover:bg-accent">
-                <svg x-cloak x-show="isGrid" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 12h.007v.008H3.75V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm-.375 5.25h.007v.008H3.75v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-                </svg>
-                <svg x-cloak x-show="!isGrid" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" />
-                </svg>
-            </button>
             @can('admin')
             <button x-on:click.prevent="$dispatch('open-modal', 'add-asset')"
-                class="p-1 transition bg-card rounded-md shadow-md hover:scale-110">
+                class="p-2 transition bg-card rounded-md shadow-md hover:scale-110">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="h-6 p-1 rounded-md bg-w-6">
+                    stroke="currentColor" class="h-6 w-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
             </button>
@@ -63,24 +55,118 @@
             </x-modal>
         </div>
     </div>
-    <p>Aset Tersedia</p>
-    <hr class="w-full h-1 mt-2 bg-primary" />
-    <div :class="isGrid ? 'grid md:grid-cols-3 grid-cols-2' : 'flex flex-col'" class="gap-3 my-4">
-        @foreach($available_assets as $asset)
-        <a href="{{ route('asset.record', $asset->id) }}" wire:navigate
-            class="p-3 text-xs transition bg-card rounded-md shadow-xl cursor-pointer hover:ring-2 hover:ring-ring">
-            {{ $asset->name }}
-        </a>
-        @endforeach
+
+    <button class="flex items-center justify-between w-full px-8 py-4 text-lg font-bold tracking-tight transition-all duration-300 rounded-xl group"
+        x-on:click.prevent="selected !== 1 ? selected = 1 : selected = null"
+        :class="selected == 1 ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/20 scale-[1.01]' : 'bg-card text-foreground hover:bg-muted border border-border shadow-sm'">
+        <div class="flex items-center gap-3">
+            <div class="p-2 rounded-lg bg-current/10">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </div>
+            <span>Aset Tersedia</span>
+            <span class="px-2.5 py-0.5 text-xs font-black rounded-full transition-colors" 
+                :class="selected == 1 ? 'bg-primary-foreground text-primary' : 'bg-primary text-primary-foreground'">
+                {{ $available_assets->count() }}
+            </span>
+        </div>
+        <svg class="w-6 h-6 transition-transform duration-300" :class="selected == 1 ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
+        </svg>
+    </button>
+    <div class="relative transition-all duration-300 ease-in-out" 
+        :class="selected == 1 ? 'max-h-[5000px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'">
+        <div class="px-2 pb-16 overflow-x-auto">
+            <table class="w-full mb-4 text-xs text-left text-foreground border-separate table-auto border-spacing-y-3">
+                <thead>
+                    <tr class="text-[0.7rem] font-bold uppercase tracking-widest text-muted-foreground/80">
+                        <th class="px-4 py-4">Nama Aset</th>
+                        <th class="px-4 py-4">Model</th>
+                        <th class="px-4 py-4">No. Siri Pendaftaran</th>
+                        <th class="px-4 py-4 w-10"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($available_assets as $asset)
+                    <tr wire:key="{{ $asset->id }}"
+                        class="bg-card rounded-xl border border-border/50 hover:bg-muted/50 transition-colors duration-200 group">
+                        <td class="p-4 rounded-l-xl border-y border-l border-border/50 font-medium">
+                            {{ $asset->name }}
+                        </td>
+                        <td class="p-4 border-y border-border/50">
+                            {{ $asset->model }}
+                        </td>
+                        <td class="p-4 border-y border-border/50">
+                            {{ $asset->registration_no }}
+                        </td>
+                        <td class="p-4 rounded-r-xl border-y border-r border-border/50 text-right">
+                            <a href="{{ route('asset.record', $asset->id) }}" wire:navigate
+                                class="px-3 py-1 text-xs font-semibold text-primary-foreground bg-primary rounded-md hover:bg-primary/80 transition">
+                                View
+                            </a>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
-    <p>Aset Sedang Dipinjam</p>
-    <hr class="w-full h-1 mt-2 bg-primary" />
-    <div :class="isGrid ? 'grid md:grid-cols-3 grid-cols-2' : 'flex flex-col'" class="gap-3 my-4">
-        @foreach($unavailable_assets as $asset)
-        <a href="{{ route('asset.record', $asset->id) }}" wire:navigate
-            class="p-3 text-xs transition bg-card rounded-md shadow-xl cursor-pointer hover:ring-2 hover:ring-ring">
-            {{ $asset->name }}
-        </a>
-        @endforeach
+
+    <button class="flex items-center justify-between w-full px-8 py-4 text-lg font-bold tracking-tight transition-all duration-300 rounded-xl group"
+        x-on:click.prevent="selected !== 2 ? selected = 2 : selected = null"
+        :class="selected == 2 ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/20 scale-[1.01]' : 'bg-card text-foreground hover:bg-muted border border-border shadow-sm'">
+        <div class="flex items-center gap-3">
+            <div class="p-2 rounded-lg bg-current/10">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </div>
+            <span>Aset Sedang Dipinjam</span>
+            <span class="px-2.5 py-0.5 text-xs font-black rounded-full transition-colors" 
+                :class="selected == 2 ? 'bg-primary-foreground text-primary' : 'bg-primary text-primary-foreground'">
+                {{ $unavailable_assets->count() }}
+            </span>
+        </div>
+        <svg class="w-6 h-6 transition-transform duration-300" :class="selected == 2 ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
+        </svg>
+    </button>
+    <div class="relative transition-all duration-300 ease-in-out" 
+        :class="selected == 2 ? 'max-h-[5000px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'">
+        <div class="px-2 pb-16 overflow-x-auto">
+            <table class="w-full mb-4 text-xs text-left text-foreground border-separate table-auto border-spacing-y-3">
+                <thead>
+                    <tr class="text-[0.7rem] font-bold uppercase tracking-widest text-muted-foreground/80">
+                        <th class="px-4 py-4">Nama Aset</th>
+                        <th class="px-4 py-4">Model</th>
+                        <th class="px-4 py-4">No. Siri Pendaftaran</th>
+                        <th class="px-4 py-4 w-10"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($unavailable_assets as $asset)
+                    <tr wire:key="{{ $asset->id }}"
+                        class="bg-card rounded-xl border border-border/50 hover:bg-muted/50 transition-colors duration-200 group">
+                        <td class="p-4 rounded-l-xl border-y border-l border-border/50 font-medium">
+                            {{ $asset->name }}
+                        </td>
+                        <td class="p-4 border-y border-border/50">
+                            {{ $asset->model }}
+                        </td>
+                        <td class="p-4 border-y border-border/50">
+                            {{ $asset->registration_no }}
+                        </td>
+                        <td class="p-4 rounded-r-xl border-y border-r border-border/50 text-right">
+                            <a href="{{ route('asset.record', $asset->id) }}" wire:navigate
+                                class="px-3 py-1 text-xs font-semibold text-primary-foreground bg-primary rounded-md hover:bg-primary/80 transition">
+                                View
+                            </a>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

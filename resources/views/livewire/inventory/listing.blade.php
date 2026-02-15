@@ -3,16 +3,20 @@
         {{ __('Senarai Inventori') }}
     </h2>
 </x-slot>
-<div class="max-w-xl p-2 mx-auto mt-4 md:p-0" x-data="{ isGrid: true }">
-    <div x-data class="flex items-center justify-center gap-2 mb-6">
-        <a href="{{ route('inventory.entry') }}" class="px-4 py-2 transition rounded-full hover:bg-accent"
+<div class="max-w-5xl p-2 mx-auto my-4 space-y-3 md:p-0">
+    <div class="flex items-center justify-center p-1 mb-8 bg-muted rounded-xl w-fit mx-auto shadow-sm border border-border/50">
+        <a href="{{ route('inventory.entry') }}" 
+            class="px-6 py-2.5 text-sm font-semibold transition-all duration-200 rounded-lg {{ request()->routeIs('inventory.entry') ? 'bg-background text-primary shadow-sm border border-border/50' : 'text-muted-foreground hover:text-foreground hover:bg-background/50' }}" 
             wire:navigate>
             {{ __('Kemasukan/Keluaran') }}
         </a>
-        <a href="{{ route('inventory.listing') }}" class="px-4 py-2 text-primary-foreground bg-primary rounded-full" wire:navigate>
+        <a href="{{ route('inventory.listing') }}" 
+            class="px-6 py-2.5 text-sm font-semibold transition-all duration-200 rounded-lg {{ request()->routeIs('inventory.listing') ? 'bg-background text-primary shadow-sm border border-border/50' : 'text-muted-foreground hover:text-foreground hover:bg-background/50' }}"
+            wire:navigate>
             {{ __('Senarai Inventori') }}
         </a>
     </div>
+
     <div class="flex items-center justify-between my-4">
         <x-text-input class="w-48 text-xs" placeholder="Cari stok" wire:model.live.debounce.500ms="search"
             type="text" />
@@ -32,27 +36,46 @@
                 </svg>
                 @endif
             </button>
-            <button x-on:click="isGrid = !isGrid" class="p-1 rounded-md hover:bg-accent">
-                <svg x-cloak x-show="isGrid" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 12h.007v.008H3.75V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm-.375 5.25h.007v.008H3.75v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-                </svg>
-                <svg x-cloak x-show="!isGrid" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" />
-                </svg>
-            </button>
         </div>
     </div>
-    <div :class="isGrid ? 'grid md:grid-cols-3 grid-cols-2' : 'flex flex-col'" class="gap-3 mb-4">
-        @foreach($stocks as $stock)
-        <a href="{{ route('inventory.record', $stock->id) }}" wire:navigate
-            class="p-3 text-xs transition bg-card rounded-md shadow-xl cursor-pointer hover:ring-2 hover:ring-ring">
-            {{ $stock->name }}
-        </a>
-        @endforeach
+
+    <div class="px-2 pb-16 overflow-x-auto">
+        <table class="w-full mb-4 text-xs text-left text-foreground border-separate table-auto border-spacing-y-3">
+            <thead>
+                <tr class="text-[0.7rem] font-bold uppercase tracking-widest text-muted-foreground/80">
+                    <th class="px-4 py-4">Nama Stok</th>
+                    <th class="px-4 py-4">Kumpulan</th>
+                    <th class="px-4 py-4">Lokasi</th>
+                    <th class="px-4 py-4">Baki</th>
+                    <th class="px-4 py-4 w-10"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($stocks as $stock)
+                <tr wire:key="{{ $stock->id }}"
+                    class="bg-card rounded-xl border border-border/50 hover:bg-muted/50 transition-colors duration-200 group">
+                    <td class="p-4 rounded-l-xl border-y border-l border-border/50 font-medium">
+                        {{ $stock->name }}
+                    </td>
+                    <td class="p-4 border-y border-border/50">
+                        {{ $stock->group }}
+                    </td>
+                    <td class="p-4 border-y border-border/50">
+                        {{ $stock->location }}
+                    </td>
+                    <td class="p-4 border-y border-border/50">
+                        {{ $stock->balance }}
+                    </td>
+                    <td class="p-4 rounded-r-xl border-y border-r border-border/50 text-right">
+                        <a href="{{ route('inventory.record', $stock->id) }}" wire:navigate
+                            class="px-3 py-1 text-xs font-semibold text-primary-foreground bg-primary rounded-md hover:bg-primary/80 transition">
+                            View
+                        </a>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
     {{ $stocks->links(data:['scrollTo' => false]) }}
 </div>

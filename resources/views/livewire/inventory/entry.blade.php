@@ -4,11 +4,14 @@
     </h2>
 </x-slot>
 <div class="max-w-md p-2 mx-auto mt-4 md:p-0">
-    <div class="flex items-center justify-center gap-2 mb-6">
-        <a href="{{ route('inventory.entry') }}" class="px-4 py-2 text-primary-foreground bg-primary rounded-full" wire:navigate>
+    <div class="flex items-center justify-center p-1 mb-8 bg-muted rounded-xl w-fit mx-auto shadow-sm border border-border/50">
+        <a href="{{ route('inventory.entry') }}" 
+            class="px-6 py-2.5 text-sm font-semibold transition-all duration-200 rounded-lg {{ request()->routeIs('inventory.entry') ? 'bg-background text-primary shadow-sm border border-border/50' : 'text-muted-foreground hover:text-foreground hover:bg-background/50' }}" 
+            wire:navigate>
             {{ __('Kemasukan/Keluaran') }}
         </a>
-        <a href="{{ route('inventory.listing') }}" class="px-4 py-2 transition rounded-full hover:bg-accent"
+        <a href="{{ route('inventory.listing') }}" 
+            class="px-6 py-2.5 text-sm font-semibold transition-all duration-200 rounded-lg {{ request()->routeIs('inventory.listing') ? 'bg-background text-primary shadow-sm border border-border/50' : 'text-muted-foreground hover:text-foreground hover:bg-background/50' }}"
             wire:navigate>
             {{ __('Senarai Inventori') }}
         </a>
