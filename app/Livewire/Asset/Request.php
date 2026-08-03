@@ -35,15 +35,6 @@ class Request extends Component
         $this->requestApproved = Application::where('user_id', Auth::id())->where('status', 1)->exists();
     }
 
-    public function __invoke(...$params)
-    {
-        if (method_exists($this, 'mount')) {
-            $this->mount(...$params);
-        }
-
-        return $this->render();
-    }
-
     public function application()
     {
         $this->validate([
@@ -83,4 +74,3 @@ class Request extends Component
         return view('livewire.asset.request', compact('applications'));
     }
 }
-

@@ -1,7 +1,9 @@
 <?php
 
 use App\Livewire\Forms\LoginForm;
+use App\Models\User;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
@@ -22,6 +24,22 @@ new #[Layout('layouts.guest')] class extends Component
 
         $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
     }
+
+    public function loginAsDemo(string $role): void
+    {
+        $account = User::DEMO_ACCOUNTS[$role] ?? null;
+
+        if (! $account) {
+            throw ValidationException::withMessages([
+                'form.email' => 'Akaun demo tidak sah.',
+            ]);
+        }
+
+        $this->form->email = $account['email'];
+        $this->form->password = User::DEMO_PASSWORD;
+
+        $this->login();
+    }
 }; ?>
 
 <div>
@@ -32,6 +50,40 @@ new #[Layout('layouts.guest')] class extends Component
 
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
+
+    <section aria-labelledby="demo-accounts-heading" class="mb-6">
+        <div class="flex items-center justify-between">
+            <h2 id="demo-accounts-heading" class="text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                Akses demo
+            </h2>
+            <span class="text-xs text-muted-foreground/70">Klik untuk masuk</span>
+        </div>
+
+        <div class="mt-3 grid gap-2 sm:grid-cols-3">
+            @foreach (User::DEMO_ACCOUNTS as $role => $account)
+                <button type="button" wire:click="loginAsDemo('{{ $role }}')" wire:loading.attr="disabled"
+                    wire:target="loginAsDemo" aria-label="Log masuk sebagai {{ $account['name'] }}"
+                    class="group rounded-lg border border-border bg-muted/30 p-3 text-left transition hover:border-primary/50 hover:bg-primary/5 focus-visible:border-ring active:scale-[0.98] disabled:cursor-wait disabled:opacity-60">
+                    <span class="flex items-center justify-between gap-2">
+                        <span class="text-sm font-semibold text-foreground">
+                            {{ match ($role) {
+                                User::ROLE_ADMIN => 'Pentadbir',
+                                User::ROLE_STAFF => 'Staf',
+                                default => 'Pengguna',
+                            } }}
+                        </span>
+                        <i class="ph {{ match ($role) {
+                            User::ROLE_ADMIN => 'ph-shield-check',
+                            User::ROLE_STAFF => 'ph-warehouse',
+                            default => 'ph-user',
+                        } }} text-base text-primary transition group-hover:translate-x-0.5"></i>
+                    </span>
+                    <span class="mt-1 block truncate text-xs text-muted-foreground">{{ $account['name'] }}</span>
+                    <span class="mt-2 block truncate font-mono text-[10px] text-muted-foreground/70">{{ $account['email'] }}</span>
+                </button>
+            @endforeach
+        </div>
+    </section>
 
     <form wire:submit="login" class="space-y-5">
         @csrf
@@ -60,7 +112,7 @@ new #[Layout('layouts.guest')] class extends Component
             </label>
         </div> --}}
 
-        <div class="flex items-center justify-between pt-1">
+        <div class="flex items-center justify-end pt-1">
             @if (Route::has('password.request'))
             {{-- <a
                 class="text-muted-foreground underline rounded-md hover:text-foreground focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ring"
@@ -68,11 +120,6 @@ new #[Layout('layouts.guest')] class extends Component
                 {{ __('Forgot your password?') }}
             </a>--}}
             @endif
-
-            <a class="text-sm font-medium text-primary underline-offset-4 transition hover:underline"
-                href="{{ route('register') }}" wire:navigate>
-                {{ __('Daftar Akaun') }}
-            </a>
 
             <x-primary-button class="ms-3">
                 {{ __('Log in') }}

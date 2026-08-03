@@ -67,7 +67,7 @@ php artisan key:generate
   ```bash
   php artisan migrate --seed
   ```
-  This populates initial data (users: admin@gmail.com/12345678, staff@gmail.com/12345678, user@gmail.com/12345678; stocks and assets from [database/seeders/DatabaseSeeder.php](database/seeders/DatabaseSeeder.php)).
+  This populates the complete demo dataset from [database/seeders/DatabaseSeeder.php](database/seeders/DatabaseSeeder.php).
 - If using MySQL, create the database manually, then run:
   ```bash
   php artisan migrate --seed
@@ -84,7 +84,21 @@ npm run build  # For production, or npm run dev for development
 php artisan serve --host=127.0.0.1 --port=8000
 ```
 - Access the app at `http://127.0.0.1:8000`.
-- Log in with seeded users (e.g., admin role for full access).
+- Open `/login` and click one of the three demo account cards. Each card signs in immediately through the normal authentication flow.
+
+### Demo accounts
+
+| Role | Email | Password |
+| --- | --- | --- |
+| Pentadbir | `admin@invms.test` | `12345678` |
+| Pegawai Stor | `staff@invms.test` | `12345678` |
+| Pemohon | `user@invms.test` | `12345678` |
+
+To restore the canonical demo state after a session changes data, run:
+
+```bash
+php artisan migrate:fresh --seed
+```
 
 ### 8. Optional: Run in Development Mode
 - For hot reloading assets: `npm run dev` in a separate terminal.
@@ -150,4 +164,3 @@ Deploy to any Windows Server version (e.g., 2012, 2016, 2019, 2022) using IIS. A
 - **Permissions**: Ensure IIS has access to files.
 
 For more, see [Laravel Docs](https://laravel.com/docs).
-

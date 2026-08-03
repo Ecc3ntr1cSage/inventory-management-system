@@ -27,6 +27,23 @@ class User extends Authenticatable
     public const ROLE_STAFF = 'staff';
     public const ROLE_USER = 'user';
 
+    public const DEMO_PASSWORD = '12345678';
+
+    public const DEMO_ACCOUNTS = [
+        self::ROLE_ADMIN => [
+            'name' => 'Pentadbir Demo',
+            'email' => 'admin@invms.test',
+        ],
+        self::ROLE_STAFF => [
+            'name' => 'Pegawai Stor Demo',
+            'email' => 'staff@invms.test',
+        ],
+        self::ROLE_USER => [
+            'name' => 'Pemohon Demo',
+            'email' => 'user@invms.test',
+        ],
+    ];
+
     /**
      * The attributes that should be hidden for serialization.
      *
