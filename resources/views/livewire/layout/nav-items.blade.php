@@ -10,7 +10,7 @@ if (auth()->user() && auth()->user()->role !== 'user') {
     ];
     $items[] = [
         'label' => 'Inventori',
-        'icon' => 'ph-boxes',
+        'icon' => 'ph-package',
         'href' => route('inventory.entry'),
         'active' => request()->routeIs('inventory.entry', 'inventory.listing', 'inventory.record'),
     ];

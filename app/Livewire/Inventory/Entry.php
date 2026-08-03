@@ -12,12 +12,6 @@ use Livewire\Component;
 
 class Entry extends Component
 {
-    public $addStockModal = false;
-    public $inModal = false;
-    public $outModal = false;
-
-    public $stocks;
-
     #[Validate('required', message: 'Masukkan perihal stok.')]
     #[Validate('unique:stocks,name', message: 'Stok telah wujud.')]
     public $stock_name;
@@ -33,7 +27,6 @@ class Entry extends Component
     #[Validate('required_without:out_quantity', message: 'Masukkan kuantiti terima.')]
     #[Validate('integer', message: 'Kuantiti terima mesti nombor.')]
     public $in_quantity;
-    public $unit_price;
     #[Validate('required_without:in_quantity', message: 'Masukkan kuantiti keluar')]
     #[Validate('integer', message: 'Kuantiti keluar mesti nombor.')]
     public $out_quantity;
@@ -111,9 +104,6 @@ class Entry extends Component
     public function render()
     {
         $stocks = Stock::get();
-        $this->stocks = $stocks->pluck('name', 'id')->toJson();
-
         return view('livewire.inventory.entry', compact('stocks'));
     }
 }
-

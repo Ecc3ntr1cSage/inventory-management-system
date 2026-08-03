@@ -10,15 +10,9 @@ class Listing extends Component
 {
     use WithPagination;
 
-    public $isGrid = true;
     public $perPage = 30;
     public $direction = 'asc';
     public $search = '';
-
-    public function toggleLayout()
-    {
-        $this->isGrid = !$this->isGrid;
-    }
 
     public function sort($direction)
     {
@@ -34,4 +28,3 @@ class Listing extends Component
         return view('livewire.inventory.listing', compact('stocks'));
     }
 }
-

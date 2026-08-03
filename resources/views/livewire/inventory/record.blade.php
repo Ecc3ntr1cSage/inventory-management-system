@@ -98,13 +98,12 @@
                             </span>
                         </th>
                         <th rowspan="2" class="px-4 py-3">No rujukan BTB/BPPS</th>
-                        <th colspan="4" class="border-b border-border px-4 py-3 text-center">Kuantiti</th>
+                        <th colspan="3" class="border-b border-border px-4 py-3 text-center">Kuantiti</th>
                         <th rowspan="2" class="px-4 py-3">Nama</th>
                         <th rowspan="2" class="px-4 py-3"></th>
                     </tr>
                     <tr>
                         <th class="px-4 py-2.5 text-center">Terima</th>
-                        <th class="px-4 py-2.5 text-center">Seunit (RM)</th>
                         <th class="px-4 py-2.5 text-center">Keluar</th>
                         <th class="px-4 py-2.5 text-center">Baki</th>
                     </tr>
@@ -115,7 +114,6 @@
                         <td class="tnum px-4 py-3">{{ $index->date }}</td>
                         <td class="px-4 py-3 font-medium text-foreground">{{ $index->reference_no }}</td>
                         <td class="tnum px-4 py-3 text-center font-semibold text-emerald-600 dark:text-emerald-400">{{ $index->in_quantity }}</td>
-                        <td class="tnum px-4 py-3 text-center text-muted-foreground">{{ $index->unit_price }}</td>
                         <td class="tnum px-4 py-3 text-center font-semibold text-orange-600 dark:text-orange-400">{{ $index->out_quantity }}</td>
                         <td class="tnum px-4 py-3 text-center font-bold text-foreground">{{ $index->balance }}</td>
                         <td class="px-4 py-3">{{ $index->name }}</td>

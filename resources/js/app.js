@@ -1,4 +1,3 @@
-import './bootstrap';
 import '@phosphor-icons/web/regular';
 import '@phosphor-icons/web/fill';
 import '@phosphor-icons/web/duotone';
@@ -10,10 +9,6 @@ import '@phosphor-icons/web/duotone';
  */
 (function () {
     const KEY = 'invms-theme';
-
-    function current() {
-        return document.documentElement.classList.contains('dark') ? 'dark' : 'light';
-    }
 
     function apply(theme) {
         document.documentElement.classList.toggle('dark', theme === 'dark');
@@ -41,11 +36,6 @@ import '@phosphor-icons/web/duotone';
         } catch (e) {
             /* private mode, ignore */
         }
-    };
-
-    window.__toggleTheme = function () {
-        const next = current() === 'dark' ? 'light' : 'dark';
-        window.__setTheme(next);
     };
 
     // Keep the toggle in sync when the OS preference changes and no explicit

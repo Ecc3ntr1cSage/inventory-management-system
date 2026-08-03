@@ -23,9 +23,18 @@ new class extends Component
             <x-application-logo class="h-8 w-8 text-primary" />
             <span class="text-sm font-bold tracking-tight text-sidebar-foreground">{{ config('app.name', 'InvMS') }}</span>
         </a>
-        <button type="button" @click="open = true" class="inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg text-sidebar-foreground/70 transition hover:bg-sidebar-accent hover:text-sidebar-accent-foreground" aria-label="Buka menu navigasi">
-            <i class="ph ph-list text-xl leading-none"></i>
-        </button>
+        <div class="flex items-center gap-1">
+            <button type="button" x-data="{ dark: document.documentElement.classList.contains('dark') }"
+                @click="dark = !dark; window.__setTheme(dark ? 'dark' : 'light')"
+                class="inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg text-sidebar-foreground/70 transition hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                aria-label="Tukar tema">
+                <i class="ph ph-moon text-lg leading-none" x-show="!dark"></i>
+                <i class="ph ph-sun text-lg leading-none" x-show="dark"></i>
+            </button>
+            <button type="button" @click="open = true" class="inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg text-sidebar-foreground/70 transition hover:bg-sidebar-accent hover:text-sidebar-accent-foreground" aria-label="Buka menu navigasi">
+                <i class="ph ph-list text-xl leading-none"></i>
+            </button>
+        </div>
     </div>
 
     {{-- Mobile drawer overlay --}}
@@ -39,9 +48,18 @@ new class extends Component
                 <x-application-logo class="h-8 w-8 text-primary" />
                 <span class="text-sm font-bold tracking-tight text-sidebar-foreground">{{ config('app.name', 'InvMS') }}</span>
             </a>
-            <button type="button" @click="open = false" class="inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg text-sidebar-foreground/70 transition hover:bg-sidebar-accent" aria-label="Tutup menu navigasi">
-                <i class="ph ph-x text-xl leading-none"></i>
-            </button>
+            <div class="flex items-center gap-1">
+                <button type="button" x-data="{ dark: document.documentElement.classList.contains('dark') }"
+                    @click="dark = !dark; window.__setTheme(dark ? 'dark' : 'light')"
+                    class="inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg text-sidebar-foreground/70 transition hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                    aria-label="Tukar tema">
+                    <i class="ph ph-moon text-lg leading-none" x-show="!dark"></i>
+                    <i class="ph ph-sun text-lg leading-none" x-show="dark"></i>
+                </button>
+                <button type="button" @click="open = false" class="inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg text-sidebar-foreground/70 transition hover:bg-sidebar-accent" aria-label="Tutup menu navigasi">
+                    <i class="ph ph-x text-xl leading-none"></i>
+                </button>
+            </div>
         </div>
 
         <div class="flex-1 space-y-1 overflow-y-auto p-3">
@@ -55,12 +73,21 @@ new class extends Component
 
     {{-- Desktop sidebar --}}
     <div class="hidden flex-1 flex-col lg:flex">
-        <div class="flex h-16 items-center gap-2.5 border-b border-sidebar-border px-5">
-            <x-application-logo class="h-8 w-8 text-primary" />
-            <span class="flex flex-col">
-                <span class="text-sm font-bold leading-none tracking-tight text-sidebar-foreground">{{ config('app.name', 'InvMS') }}</span>
-                <span class="mt-1 font-mono text-[10px] uppercase tracking-widest text-sidebar-foreground/45">Sistem Inventori &amp; Aset</span>
-            </span>
+        <div class="flex h-16 items-center justify-between gap-2.5 border-b border-sidebar-border px-5">
+            <a href="{{ route('dashboard') }}" wire:navigate class="flex min-w-0 items-center gap-2.5">
+                <x-application-logo class="h-8 w-8 shrink-0 text-primary" />
+                <span class="flex min-w-0 flex-col">
+                    <span class="truncate text-sm font-bold leading-none tracking-tight text-sidebar-foreground">{{ config('app.name', 'InvMS') }}</span>
+                    <span class="mt-1 truncate font-mono text-[10px] uppercase tracking-widest text-sidebar-foreground/45">Sistem Inventori &amp; Aset</span>
+                </span>
+            </a>
+            <button type="button" x-data="{ dark: document.documentElement.classList.contains('dark') }"
+                @click="dark = !dark; window.__setTheme(dark ? 'dark' : 'light')"
+                class="inline-flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-lg text-sidebar-foreground/70 transition hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                aria-label="Tukar tema">
+                <i class="ph ph-moon text-lg leading-none" x-show="!dark"></i>
+                <i class="ph ph-sun text-lg leading-none" x-show="dark"></i>
+            </button>
         </div>
 
         <div class="flex-1 space-y-1 overflow-y-auto p-3">

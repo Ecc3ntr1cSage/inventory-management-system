@@ -1,166 +1,267 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Inventory MS
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Inventory MS (`InvMS`) is a Laravel and Livewire inventory-management demo for stock movements, movable assets, and internal/guest asset-lending requests.
 
-# Inventory Management System
+> Demo boundary: this is an internal operations prototype, not a production asset-control, audit, notification, or records-retention system.
 
-A Laravel-based inventory management application using Livewire for dynamic interfaces. It manages stocks, assets, and user roles (admin, staff, user).
+## What it includes
 
-## Prerequisites
+- Role-based access for `admin`, `staff`, and `user` accounts.
+- Stock receiving/issuing with current balances and movement history.
+- Search, sorting, pagination, stock deletion, and stock-record PDF export.
+- Asset catalogue with availability tracking and asset-record PDF export.
+- Authenticated user asset requests with pending, issued, and returned states.
+- Public guest asset requests with a honeypot field and admin email notifications.
+- Admin/staff submission review: approve, receive, or revert requests.
+- Dashboard analytics for stock, assets, and request counts.
+- Profile, password, email verification, account deletion, and admin user management.
+- Light/dark theme persistence and a Tailwind-based responsive interface.
 
-- **PHP 8.2+**: Download from [php.net](https://www.php.net/downloads). Enable extensions: `pdo_sqlite`, `pdo_mysql`, `mbstring`, `openssl`, `fileinfo`, `gd`.
-- **Composer**: Install from [getcomposer.org](https://getcomposer.org/download/).
-- **Node.js 18+ and npm**: Install from [nodejs.org](https://nodejs.org/).
-- **Git**: For cloning the repository.
-- **Database**: SQLite (default, file-based) or MySQL/MariaDB.
+The application does not provide a public API, payment flow, cloud media pipeline, queue worker, or production-grade audit/security controls.
 
-## Local Setup (Windows)
+## Technology
 
-Follow these steps to run the application locally on Windows.
+| Area | Implementation |
+|---|---|
+| Backend | PHP 8.3+, Laravel 13 |
+| UI | Livewire 4, Blade, Alpine-style directives |
+| Styling | Tailwind CSS 4, custom CSS tokens, `@tailwindcss/forms` |
+| Assets | Vite 8 and Laravel Vite plugin |
+| Icons | `@phosphor-icons/web` |
+| PDFs | `barryvdh/laravel-dompdf` |
+| Database | SQLite default in `.env.example`; MySQL, PostgreSQL, and SQL Server configs are retained |
+| Sessions | Database sessions by default |
+| Mail | Log mailer by default |
+| Tests | PHPUnit configured; no test cases currently exist |
 
-### 1. Clone the Repository
-```bash
-git clone <repository-url> inventory-management-system
-cd inventory-management-system
-```
+Exact dependency constraints are in [`composer.json`](composer.json) and [`package.json`](package.json).
 
-### 2. Install PHP Dependencies
-Run Composer to install Laravel dependencies:
+## Quick start
+
+### Requirements
+
+- PHP 8.3+ with the Laravel-required extensions.
+- Composer.
+- Node.js and npm.
+- SQLite for the default zero-service setup, or another configured database.
+
+### Install
+
 ```bash
 composer install
-```
-
-### 3. Configure Environment
-- Copy `.env.example` to `.env`:
-  ```bash
-  cp .env.example .env
-  ```
-- Edit `.env`:
-  - For SQLite (default):
-    ```
-    DB_CONNECTION=sqlite
-    DB_DATABASE=database/database.sqlite
-    ```
-  - For MySQL:
-    ```
-    DB_CONNECTION=mysql
-    DB_HOST=127.0.0.1
-    DB_PORT=3306
-    DB_DATABASE=invms
-    DB_USERNAME=your_username
-    DB_PASSWORD=your_password
-    ```
-  - Set other values like `APP_NAME=Inventory Management System`, `APP_URL=http://localhost:8000`.
-
-### 4. Generate Application Key
-```bash
-php artisan key:generate
-```
-
-### 5. Set Up Database
-- If using SQLite, create the database file and run migrations:
-  ```bash
-  php artisan migrate --seed
-  ```
-  This populates the complete demo dataset from [database/seeders/DatabaseSeeder.php](database/seeders/DatabaseSeeder.php).
-- If using MySQL, create the database manually, then run:
-  ```bash
-  php artisan migrate --seed
-  ```
-
-### 6. Install and Build Frontend Assets
-```bash
 npm install
-npm run build  # For production, or npm run dev for development
+cp .env.example .env
+php artisan key:generate
+php artisan migrate --seed
+php artisan storage:link
 ```
 
-### 7. Start the Development Server
+PowerShell:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+The example environment uses SQLite, database sessions, database cache/queue settings, and log mail. Configure `.env` before migrating an existing database.
+
+### Run locally
+
+Start Laravel and Vite in separate terminals:
+
 ```bash
-php artisan serve --host=127.0.0.1 --port=8000
+php artisan serve
+npm run dev
 ```
-- Access the app at `http://127.0.0.1:8000`.
-- Open `/login` and click one of the three demo account cards. Each card signs in immediately through the normal authentication flow.
 
-### Demo accounts
+Open `http://127.0.0.1:8000`. For a production asset build, run `npm run build` instead of `npm run dev`.
 
-| Role | Email | Password |
-| --- | --- | --- |
-| Pentadbir | `admin@invms.test` | `12345678` |
-| Pegawai Stor | `staff@invms.test` | `12345678` |
-| Pemohon | `user@invms.test` | `12345678` |
-
-To restore the canonical demo state after a session changes data, run:
+To recreate the deterministic demo database:
 
 ```bash
 php artisan migrate:fresh --seed
 ```
 
-### 8. Optional: Run in Development Mode
-- For hot reloading assets: `npm run dev` in a separate terminal.
-- Clear caches if needed: `php artisan config:clear`, `php artisan cache:clear`.
+`migrate:fresh` is destructive and should only target a disposable database.
 
-## Deployment on Windows Server (On-Premises)
+## Demo accounts
 
-Deploy to any Windows Server version (e.g., 2012, 2016, 2019, 2022) using IIS. Assumes administrative access.
+All seeded demo accounts are email-verified and use password `12345678`.
 
-### 1. Prepare the Server
-- Install IIS: Via Server Manager > Add Roles and Features > Web Server (IIS).
-- Install required IIS modules: CGI, URL Rewrite (download from [iis.net](https://www.iis.net/downloads/microsoft/url-rewrite)).
-- Install PHP 8.2+ (non-thread-safe): Extract to `C:\php`, add to PATH. Enable extensions in `php.ini`.
-- Install Composer and Node.js (as above).
-- Install database: SQLite (no setup needed) or MySQL/MariaDB.
+| Role | Email | Name |
+|---|---|---|
+| Admin | `admin@invms.test` | Pentadbir Demo |
+| Staff | `staff@invms.test` | Pegawai Stor Demo |
+| User | `user@invms.test` | Pemohon Demo |
 
-### 2. Deploy the Application
-- Clone or upload code to `C:\inetpub\wwwroot\inventory-management-system`:
-  ```bash
-  git clone <repository-url> C:\inetpub\wwwroot\inventory-management-system
-  cd C:\inetpub\wwwroot\inventory-management-system
-  ```
-- Install dependencies:
-  ```bash
-  composer install --no-dev --optimize-autoloader
-  npm install && npm run build
-  ```
-- Configure `.env` (as in local setup, but set `APP_ENV=production`, `APP_URL=https://your-domain.com`).
-- Generate key and set up database:
-  ```bash
-  php artisan key:generate
-  php artisan migrate --seed
-  ```
-- Cache for production:
-  ```bash
-  php artisan config:cache
-  php artisan route:cache
-  php artisan view:cache
-  ```
+The login page exposes one-click demo login buttons backed by `User::DEMO_ACCOUNTS`.
 
-### 3. Configure IIS
-- Create a new site in IIS Manager pointing to `C:\inetpub\wwwroot\inventory-management-system\public`.
-- Add handler mapping: `*.php` to `C:\php\php-cgi.exe`.
-- Add URL Rewrite rule: Rewrite `^(.*)$` to `index.php/$1`.
-- Set default document to `index.php`.
-- Grant IIS_IUSRS read/write to `storage/`, `bootstrap/cache/`, and database file (if SQLite).
+## Main journeys
 
-### 4. Additional Configurations
-- **SSL**: Install certificate via IIS Manager for HTTPS.
-- **Queues**: If using queues, schedule `php artisan queue:work` via Task Scheduler.
-- **Firewall**: Allow ports 80/443.
-- **Backup**: Schedule backups for database and code.
+### Guest asset request
 
-### 5. Testing
-- Access via server IP/domain.
-- Test login and features (e.g., inventory entry, asset requests).
-- Monitor logs in `storage/logs/laravel.log`.
+1. Open `/guest/request` or select **Buat Permohonan** on the login page.
+2. Enter guest identity and request details.
+3. The hidden `website` honeypot silently ignores obvious bot submissions.
+4. A valid request creates an `applications` row with a nullable `user_id`.
+5. Admin users receive a Laravel mail notification through the configured mail channel.
 
-## Troubleshooting
-- **PHP Errors**: Check `php.ini` extensions and IIS logs.
-- **Database Issues**: Verify credentials and service status.
-- **Assets Not Loading**: Run `npm run build` and clear browser cache.
-- **Permissions**: Ensure IIS has access to files.
+Pending applications are also exposed by `/guest/index`; treat that route as a demo-only public boundary.
 
-For more, see [Laravel Docs](https://laravel.com/docs).
+### User asset request
+
+1. Sign in as the demo user.
+2. Open `/asset/request`.
+3. Submit the description, reason, position, department, and location.
+4. The page shows the user's request history and status.
+
+### Staff/admin asset issuance
+
+1. Sign in as admin or staff.
+2. Open `/asset/submission`.
+3. Approve a pending request by selecting an available asset.
+4. The application becomes issued (`status = 1`) and the asset becomes unavailable.
+5. Receive the asset later to mark the application returned (`status = 3`) and release the asset.
+6. Revert an issued decision to return the application to pending (`status = 0`).
+
+### Inventory movement
+
+1. Open `/inventory/entry` as admin or staff.
+2. Select a stock item, reference number, date, and either receiving or issuing quantity.
+3. Receiving increases `stocks.balance`; issuing decreases it.
+4. Open the generated stock record page to search, sort, paginate, delete entries, or export a PDF.
+
+## Route surface
+
+| Route | Name | Access | Purpose |
+|---|---|---|---|
+| `/` | — | Public | Redirects to `/login` |
+| `/login` | `login` | Guest | Livewire login and demo account shortcuts |
+| `/forgot-password` | `password.request` | Guest | Send password reset link |
+| `/reset-password/{token}` | `password.reset` | Guest | Reset password |
+| `/verify-email` | `verification.notice` | Auth | Email verification notice |
+| `/verify-email/{id}/{hash}` | `verification.verify` | Signed/auth | Mark email verified |
+| `/confirm-password` | `password.confirm` | Auth | Confirm current password |
+| `/guest/request` | `guest.request` | Public | Guest asset request form |
+| `/guest/index` | `guest.index` | Public | Pending application listing |
+| `/dashboard` | `dashboard` | Admin/staff + verified | Operational analytics |
+| `/inventory/entry` | `inventory.entry` | Admin/staff + verified | Stock movement and stock creation |
+| `/inventory/listing` | `inventory.listing` | Admin/staff + verified | Stock catalogue |
+| `/inventory/records/{id}` | `inventory.record` | Admin/staff + verified | Stock movement history/PDF |
+| `/asset/submission` | `asset.submission` | Admin/staff + verified | Review asset requests |
+| `/asset/listing` | `asset.listing` | Admin/staff + verified | Asset catalogue |
+| `/asset/records/{id}` | `asset.record` | Admin/staff + verified | Asset history/PDF |
+| `/asset/request` | `asset.request` | Auth + verified | User request form/history |
+| `/profile` | `profile` | Auth + verified | Profile and account settings |
+
+Inspect the actual runtime route table with:
+
+```bash
+php artisan route:list --except-vendor
+```
+
+## Architecture
+
+This is a conventional server-rendered Laravel monolith:
+
+- `routes/` defines web and authentication entry points.
+- Routeable Livewire components in `app/Livewire` own form state, validation, queries, mutations, and redirects.
+- Paired Blade views in `resources/views/livewire` render each component.
+- Eloquent models in `app/Models` represent users, stock, movements, assets, and applications.
+- `database/migrations` is the schema history; `DatabaseSeeder` is the canonical demo fixture.
+- Blade layouts and components provide the shell, navigation, modals, forms, flash messages, and PDF templates.
+- `resources/css/app.css` defines warm neutral design tokens, component helpers, focus styles, and reduced-motion rules.
+- `resources/js/app.js` imports Phosphor icon packs and persists the `invms-theme` light/dark preference.
+
+Important files:
+
+| File | Responsibility |
+|---|---|
+| `routes/web.php` | Active application routes and role groups |
+| `routes/auth.php` | Auth and email-verification routes |
+| `bootstrap/app.php` | Middleware alias registration and route bootstrap |
+| `app/Http/Middleware/CheckRoleMiddleware.php` | Admin/staff operational gate |
+| `app/Providers/AppServiceProvider.php` | `admin` and `staff` authorization gates |
+| `app/Livewire/Inventory/Entry.php` | Stock creation and movements |
+| `app/Livewire/Inventory/Record.php` | Stock history, deletion, and export |
+| `app/Livewire/Asset/Submission.php` | Approve, receive, and revert lending applications |
+| `app/Livewire/Asset/Guest.php` | Public guest request flow and notification |
+| `app/Models/Application.php` | User/guest request persistence and relationships |
+| `database/seeders/DatabaseSeeder.php` | Demo accounts and canonical records |
+| `resources/css/app.css` | Theme tokens and shared UI primitives |
+| `resources/js/app.js` | Theme and icon frontend entry |
+
+## Data model
+
+| Table | Purpose |
+|---|---|
+| `users` | Name, unique email, role, password, verification, session token |
+| `stocks` | Stock name, group, location, current balance |
+| `indexes` | Stock movement date, reference, in/out quantities, balance snapshot, operator name |
+| `assets` | Asset name, model, registration number, availability |
+| `applications` | Authenticated or guest request, request details, asset assignment, issue/return metadata, status |
+| `password_reset_tokens` | Laravel password reset tokens |
+| `sessions` | Database-backed sessions |
+
+Relationships:
+
+- `Stock hasMany Index` through `Stock::entries()`.
+- `Index belongsTo Stock` through `Index::inventory()`.
+- `Asset hasMany Application` through `Asset::applications()`.
+- `Application belongsTo Asset` and optionally belongsTo User.
+- Guest applications have `user_id = null` and retain `guest_name`/`guest_email`.
+
+The application migration uses foreign keys that set deleted users to null and cascade deleted assets to their applications. Do not rewrite old migrations for an already-installed database; add a forward migration for schema changes.
+
+## Development and verification
+
+```bash
+php artisan test
+npm run build
+php artisan view:cache
+composer validate --no-check-publish
+git diff --check
+```
+
+Current repository baseline checked on 2026-08-03:
+
+- `npm run build`: passes.
+- `php artisan view:cache`: passes.
+- PHP lint across app, database, routes, and config: passes.
+- Composer validation and optimized autoload/package discovery: passes.
+- `php artisan test`: no tests found; PHPUnit is configured with `failOnEmptyTestSuite=false`.
+
+## Known limitations
+
+- There are no application feature or unit tests yet.
+- `guest/index` publicly lists pending request data.
+- Role and application statuses are strings/integers shared between PHP, Blade, and seed data rather than centralized enums.
+- Several Livewire mutation methods rely on route middleware and UI gates rather than repeating role/record authorization inside every action.
+- Stock balance updates and historical-balance recalculation are not protected by row locks, so concurrent writes may race.
+- The inventory movement form's action validation uses numeric rules while its property attributes use integer rules; standardize this before relying on strict quantity semantics.
+- Guest notifications depend on configured Laravel mail delivery; the example configuration only logs mail.
+- The migrations retain framework defaults and a driver-sensitive guest-field/foreign-key migration; verify both fresh and upgrade paths when changing schema.
+- The application has no production deployment, backup, audit-retention, or monitoring contract.
+
+## Cleanup baseline
+
+The recent cleanup removed orphaned scaffold code, unused starter views/components, Axios/PostCSS leftovers, unused Breeze/Sail dependencies, dead Livewire state, unused gates/theme helpers, and a phantom inventory price column. Existing navigation UI changes were preserved.
+
+## Documentation
+
+The complete developer notes are in the Dev Obsidian vault under `Projects/Inventory MS`:
+
+- [[00 Project Overview]]
+- [[01 Architecture]]
+- [[02 Data Model]]
+- [[03 Inventory and Asset Workflows]]
+- [[04 Backend Reference]]
+- [[05 Frontend Reference]]
+- [[06 Operations and Development]]
+- [[07 Testing and Known Issues]]
+- [[08 Repository Map and Working Conventions]]
+
+See [`AGENTS.md`](AGENTS.md) for coding-agent rules, invariants, change recipes, and safety boundaries.
+
+## License
+
+MIT, as declared in `composer.json`.

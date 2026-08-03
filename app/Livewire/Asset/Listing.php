@@ -18,13 +18,6 @@ class Listing extends Component
     #[Validate('required', message: 'Masukkan no pendaftaran.')]
     public $registration_no;
 
-    public $isGrid = true;
-
-    public function toggleLayout()
-    {
-        $this->isGrid = !$this->isGrid;
-    }
-
     public function addAsset()
     {
         $this->validate([
