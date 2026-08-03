@@ -12,8 +12,9 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Geist', 'ui-sans-serif', 'system-ui', ...defaultTheme.fontFamily.sans],
-                mono: ['Geist Mono', 'ui-monospace', 'SFMono-Regular', ...defaultTheme.fontFamily.mono],
+                sans: ['Montserrat', 'ui-sans-serif', 'system-ui', ...defaultTheme.fontFamily.sans],
+                serif: ['Merriweather', 'Georgia', ...defaultTheme.fontFamily.serif],
+                mono: ['Ubuntu Mono', 'ui-monospace', 'SFMono-Regular', ...defaultTheme.fontFamily.mono],
             },
             colors: {
                 border: "var(--border)",
@@ -40,6 +41,10 @@ export default {
                 accent: {
                     DEFAULT: "var(--accent)",
                     foreground: "var(--accent-foreground)",
+                },
+                success: {
+                    DEFAULT: "var(--success)",
+                    foreground: "var(--success-foreground)",
                 },
                 card: {
                     DEFAULT: "var(--card)",

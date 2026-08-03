@@ -96,7 +96,7 @@
             @can('admin')
             <div>
                 <x-input-label for="in_quantity" :value="__('Kuantiti Terima *')" />
-                <x-text-input wire:model.blur="in_quantity" id="in_quantity" class="mt-1 block w-full" type="text" />
+                <x-text-input wire:model.live.blur="in_quantity" id="in_quantity" class="mt-1 block w-full" type="text" />
                 <x-input-error :messages="$errors->get('in_quantity')" class="mt-2" />
             </div>
             @endcan
@@ -104,7 +104,7 @@
             @can('staff')
             <div>
                 <x-input-label for="out_quantity" :value="__('Kuantiti Keluar *')" />
-                <x-text-input wire:model.blur="out_quantity" id="out_quantity" class="mt-1 block w-full" type="text" />
+                <x-text-input wire:model.live.blur="out_quantity" id="out_quantity" class="mt-1 block w-full" type="text" />
                 <x-input-error :messages="$errors->get('out_quantity')" class="mt-2" />
             </div>
             @endcan

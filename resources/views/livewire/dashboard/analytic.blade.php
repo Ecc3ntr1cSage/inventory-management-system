@@ -1,4 +1,19 @@
-<div class="space-y-6">
+<div class="space-y-7">
+    <div class="flex flex-col justify-between gap-4 rounded-2xl border border-sidebar-border bg-sidebar px-5 py-5 text-sidebar-foreground shadow-md sm:flex-row sm:items-center sm:px-6">
+        <div>
+            <p class="eyebrow text-sidebar-foreground/50">Status sistem</p>
+            <div class="mt-2 flex items-center gap-2">
+                <span class="h-2.5 w-2.5 rounded-full bg-success shadow-[0_0_0_4px_rgba(5,150,105,0.16)]"></span>
+                <p class="font-mono text-lg font-semibold tracking-tight">Operasi berjalan normal</p>
+            </div>
+            <p class="mt-1 text-sm text-sidebar-foreground/60">Pantau pergerakan stok dan aset dalam satu paparan.</p>
+        </div>
+        <div class="flex items-center gap-2 text-xs text-sidebar-foreground/55">
+            <i class="ph ph-clock text-base"></i>
+            <span>Dikemas kini secara langsung</span>
+        </div>
+    </div>
+
     {{-- Period filter --}}
     <div class="flex items-center justify-between">
         <p class="text-sm font-medium text-muted-foreground">
@@ -42,7 +57,7 @@
                     <i class="ph ph-boxes text-lg leading-none"></i>
                 </span>
             </div>
-            <p class="tnum mt-3 text-3xl font-bold tracking-tight text-foreground">{{ number_format($stocks->sum('balance')) }}</p>
+                <p class="data-number mt-3 text-3xl font-semibold text-foreground">{{ number_format($stocks->sum('balance')) }}</p>
             <p class="mt-1 text-xs text-muted-foreground">{{ $stocks->count() }} jenis stok</p>
         </div>
 
@@ -53,7 +68,7 @@
                     <i class="ph ph-tray-arrow-down text-lg leading-none"></i>
                 </span>
             </div>
-            <p class="tnum mt-3 text-3xl font-bold tracking-tight text-foreground">{{ number_format($stock_received) }}</p>
+                <p class="data-number mt-3 text-3xl font-semibold text-foreground">{{ number_format($stock_received) }}</p>
             <p class="mt-1 text-xs text-muted-foreground">dalam tempoh dipilih</p>
         </div>
 
@@ -64,7 +79,7 @@
                     <i class="ph ph-tray-arrow-up text-lg leading-none"></i>
                 </span>
             </div>
-            <p class="tnum mt-3 text-3xl font-bold tracking-tight text-foreground">{{ number_format($stock_issued) }}</p>
+                <p class="data-number mt-3 text-3xl font-semibold text-foreground">{{ number_format($stock_issued) }}</p>
             <p class="mt-1 text-xs text-muted-foreground">dalam tempoh dipilih</p>
         </div>
 
@@ -75,7 +90,7 @@
                     <i class="ph ph-clipboard-text text-lg leading-none"></i>
                 </span>
             </div>
-            <p class="tnum mt-3 text-3xl font-bold tracking-tight text-foreground">{{ number_format($application_count) }}</p>
+                <p class="data-number mt-3 text-3xl font-semibold text-foreground">{{ number_format($application_count) }}</p>
             <p class="mt-1 text-xs text-muted-foreground">dalam tempoh dipilih</p>
         </div>
     </div>
@@ -86,13 +101,13 @@
         <div class="card-surface overflow-hidden">
             <div class="flex items-center justify-between border-b border-border px-5 py-4">
                 <h3 class="text-sm font-bold tracking-tight text-foreground">Stok</h3>
-                <span class="chip bg-primary/10 text-primary">{{ $stocks->sum('balance') }} unit</span>
+                <span class="chip bg-success/10 text-success">{{ $stocks->sum('balance') }} unit</span>
             </div>
             <div class="max-h-96 divide-y divide-border overflow-y-auto">
                 @forelse($stocks as $stock)
                 <div class="flex items-center justify-between px-5 py-3 transition hover:bg-muted/50">
                     <p class="truncate pr-3 text-sm font-medium text-foreground">{{ $stock->name }}</p>
-                    <p class="tnum shrink-0 text-sm font-semibold text-primary">{{ number_format($stock->balance) }}</p>
+                    <p class="data-number shrink-0 text-sm font-semibold text-success">{{ number_format($stock->balance) }}</p>
                 </div>
                 @empty
                 <div class="px-5 py-12 text-center">

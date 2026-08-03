@@ -5,7 +5,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
-use Livewire\Volt\Component;
+use Livewire\Component;
 
 new #[Layout('layouts.guest')] class extends Component
 {
@@ -44,8 +44,9 @@ new #[Layout('layouts.guest')] class extends Component
 
 <div>
     <div class="mb-6">
-        <h1 class="text-2xl font-bold tracking-tight text-foreground">Log Masuk</h1>
-        <p class="mt-1 text-sm text-muted-foreground">Sila masukkan kelayakan anda untuk meneruskan.</p>
+        <p class="eyebrow mb-2">Akses sistem</p>
+        <h1 class="page-title">Log Masuk</h1>
+        <p class="mt-2 text-sm leading-relaxed text-muted-foreground">Sila masukkan kelayakan anda untuk meneruskan.</p>
     </div>
 
     <!-- Session Status -->
@@ -53,7 +54,7 @@ new #[Layout('layouts.guest')] class extends Component
 
     <section aria-labelledby="demo-accounts-heading" class="mb-6">
         <div class="flex items-center justify-between">
-            <h2 id="demo-accounts-heading" class="text-xs font-bold uppercase tracking-widest text-muted-foreground">
+            <h2 id="demo-accounts-heading" class="eyebrow">
                 Akses demo
             </h2>
             <span class="text-xs text-muted-foreground/70">Klik untuk masuk</span>
@@ -63,7 +64,7 @@ new #[Layout('layouts.guest')] class extends Component
             @foreach (User::DEMO_ACCOUNTS as $role => $account)
                 <button type="button" wire:click="loginAsDemo('{{ $role }}')" wire:loading.attr="disabled"
                     wire:target="loginAsDemo" aria-label="Log masuk sebagai {{ $account['name'] }}"
-                    class="group rounded-lg border border-border bg-muted/30 p-3 text-left transition hover:border-primary/50 hover:bg-primary/5 focus-visible:border-ring active:scale-[0.98] disabled:cursor-wait disabled:opacity-60">
+                    class="group cursor-pointer rounded-xl border border-border bg-muted/30 p-3 text-left transition duration-200 hover:border-success/50 hover:bg-success/5 focus-visible:border-ring active:scale-[0.98] disabled:cursor-wait disabled:opacity-60">
                     <span class="flex items-center justify-between gap-2">
                         <span class="text-sm font-semibold text-foreground">
                             {{ match ($role) {
@@ -76,7 +77,7 @@ new #[Layout('layouts.guest')] class extends Component
                             User::ROLE_ADMIN => 'ph-shield-check',
                             User::ROLE_STAFF => 'ph-warehouse',
                             default => 'ph-user',
-                        } }} text-base text-primary transition group-hover:translate-x-0.5"></i>
+                        } }} text-base text-success transition group-hover:translate-x-0.5"></i>
                     </span>
                     <span class="mt-1 block truncate text-xs text-muted-foreground">{{ $account['name'] }}</span>
                     <span class="mt-2 block truncate font-mono text-[10px] text-muted-foreground/70">{{ $account['email'] }}</span>
@@ -128,7 +129,7 @@ new #[Layout('layouts.guest')] class extends Component
 
         <div class="border-t border-border pt-4">
             <a href="{{ url('guest/request') }}" wire:navigate
-                class="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-primary/30 px-4 py-2.5 text-sm font-semibold text-primary shadow-sm transition hover:bg-primary/5">
+                class="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-success/30 px-4 py-2.5 text-sm font-semibold text-success shadow-sm transition duration-200 hover:bg-success/5">
                 <i class="ph ph-clipboard-text text-base leading-none"></i>
                 {{ __('Buat Permohonan') }}
             </a>

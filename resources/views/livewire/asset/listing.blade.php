@@ -13,7 +13,7 @@
         </div>
         @can('admin')
         <button x-on:click.prevent="$dispatch('open-modal', 'add-asset')"
-            class="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground shadow-sm transition hover:bg-primary/90">
+            class="inline-flex h-10 cursor-pointer items-center justify-center gap-2 rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground shadow-sm transition duration-200 hover:bg-primary/90">
             <i class="ph ph-plus text-base leading-none"></i>
             Aset Baharu
         </button>

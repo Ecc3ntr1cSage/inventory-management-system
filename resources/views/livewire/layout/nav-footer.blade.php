@@ -3,7 +3,7 @@
     <button type="button"
         x-data="{ dark: document.documentElement.classList.contains('dark') }"
         @click="dark = !dark; window.__setTheme(dark ? 'dark' : 'light')"
-        class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-sidebar-foreground/70 transition hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+        class="inline-flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-lg text-sidebar-foreground/70 transition hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
         aria-label="Tukar tema">
         <i class="ph ph-moon text-lg leading-none" x-show="!dark"></i>
         <i class="ph ph-sun text-lg leading-none" x-show="dark"></i>
@@ -13,7 +13,7 @@
     @auth
     <div class="relative w-full" x-data="{ open: false }" @click.outside="open = false">
         <button type="button" @click="open = !open"
-            class="flex w-full items-center gap-2.5 rounded-lg px-2 py-1.5 text-start transition hover:bg-sidebar-accent">
+            class="flex w-full cursor-pointer items-center gap-2.5 rounded-lg px-2 py-2 text-start transition hover:bg-sidebar-accent">
             <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/15 text-xs font-bold text-primary">
                 {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
             </span>
@@ -25,7 +25,7 @@
         </button>
 
         <div x-show="open" x-cloak x-transition:enter="transition ease-out duration-100" x-transition:enter-start="opacity-0 -translate-y-1" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
-            class="absolute bottom-full left-0 right-0 z-50 mb-2 overflow-hidden rounded-lg border border-border bg-popover shadow-lg">
+                class="absolute bottom-full left-0 right-0 z-50 mb-2 overflow-hidden rounded-xl border border-border bg-popover shadow-lg">
             <a href="{{ route('profile') }}" wire:navigate
                 class="flex items-center gap-2.5 px-3 py-2.5 text-sm text-popover-foreground transition hover:bg-accent">
                 <i class="ph ph-user text-base leading-none"></i>

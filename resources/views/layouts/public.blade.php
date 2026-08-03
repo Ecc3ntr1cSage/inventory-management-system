@@ -10,13 +10,13 @@
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=geist:400,500,600,700&family=geist-mono:400,500,600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.bunny.net/css?family=montserrat:400,500,600,700|merriweather:400,700|ubuntu-mono:400,700&display=swap" rel="stylesheet" />
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="min-h-[100dvh] bg-background font-sans text-sm antialiased selection:bg-primary/25">
+<body class="min-h-[100dvh] bg-background font-sans text-sm antialiased selection:bg-success/20 selection:text-foreground">
     <div class="flex min-h-[100dvh] flex-col">
         {{-- Public header --}}
         <header class="sticky top-0 z-30 border-b border-border bg-card/80 backdrop-blur">
@@ -50,7 +50,7 @@
         </header>
 
         {{-- Content --}}
-        <main class="flex-1 px-4 py-8 sm:px-6">
+        <main id="main-content" tabindex="-1" class="flex-1 px-4 py-8 sm:px-6">
             <div class="mx-auto w-full max-w-5xl">
                 {{ $slot }}
             </div>

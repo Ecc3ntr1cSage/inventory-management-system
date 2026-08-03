@@ -32,14 +32,16 @@ if (auth()->user() && auth()->user()->role === 'user') {
 }
 @endphp
 
+<p class="eyebrow mb-2 px-3 text-sidebar-foreground/45">Operasi</p>
+
 @foreach ($items as $item)
 <a href="{{ $item['href'] }}" wire:navigate
     @class([
-        'group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-150',
-        'bg-primary text-primary-foreground shadow-sm' => $item['active'],
-        'text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground' => ! $item['active'],
+        'group flex cursor-pointer items-center gap-3 rounded-lg border px-3 py-2.5 text-sm font-medium transition-all duration-200',
+        'border-sidebar-primary/30 bg-sidebar-primary text-sidebar-primary-foreground shadow-sm' => $item['active'],
+        'border-transparent text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground' => ! $item['active'],
     ])>
-    <i class="ph {{ $item['icon'] }} text-lg leading-none"></i>
+    <i class="ph {{ $item['icon'] }} text-lg leading-none transition-transform duration-200 group-hover:translate-x-0.5"></i>
     <span>{{ $item['label'] }}</span>
 </a>
 @endforeach

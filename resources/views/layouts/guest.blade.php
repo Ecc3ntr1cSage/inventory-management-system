@@ -10,19 +10,19 @@
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=geist:400,500,600,700&family=geist-mono:400,500,600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.bunny.net/css?family=montserrat:400,500,600,700|merriweather:400,700|ubuntu-mono:400,700&display=swap" rel="stylesheet" />
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="font-sans text-sm antialiased selection:bg-primary/25">
+<body class="font-sans text-sm antialiased selection:bg-success/20 selection:text-foreground">
     <div class="grid min-h-[100dvh] bg-background lg:grid-cols-2">
         {{-- Brand panel --}}
-        <div class="relative hidden overflow-hidden bg-foreground text-background lg:flex lg:flex-col lg:justify-between lg:p-12">
+        <div class="relative hidden overflow-hidden bg-sidebar text-sidebar-foreground lg:flex lg:flex-col lg:justify-between lg:p-12">
             {{-- subtle warm glow from the accent --}}
-            <div class="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-primary/25 blur-3xl"></div>
-            <div class="pointer-events-none absolute -bottom-40 -left-24 h-96 w-96 rounded-full bg-primary/10 blur-3xl"></div>
+            <div class="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-primary/20 blur-3xl"></div>
+            <div class="pointer-events-none absolute -bottom-40 -left-24 h-96 w-96 rounded-full bg-accent/20 blur-3xl"></div>
 
             <div class="relative flex items-center gap-3">
                 <x-application-logo class="h-10 w-10 text-primary" />
@@ -33,15 +33,15 @@
             </div>
 
             <div class="relative max-w-md">
-                <h1 class="text-4xl font-bold leading-[1.1] tracking-tight">
-                    Pengurusan inventori dan aset, <span class="italic">satu sistem</span>.
+                <h1 class="font-mono text-4xl font-semibold leading-[1.1] tracking-[-0.05em]">
+                    Inventori yang jelas, <span class="text-success">operasi yang lancar</span>.
                 </h1>
-                <p class="mt-4 max-w-sm text-background/60 leading-relaxed">
+                <p class="mt-4 max-w-sm leading-relaxed text-sidebar-foreground/65">
                     Rekod stok, permohonan pinjaman aset dan sejarah pergerakan peralatan, semuanya di satu tempat.
                 </p>
             </div>
 
-            <p class="relative text-xs text-background/40">
+            <p class="relative text-xs text-sidebar-foreground/45">
                 Sistem dalaman &middot; Kementerian Kesihatan Malaysia
             </p>
         </div>
@@ -57,7 +57,7 @@
                     </div>
                 </div>
 
-                <div class="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
+                <div class="overflow-hidden rounded-2xl border border-border bg-card shadow-lg">
                     <div class="p-6 sm:p-8">
                         {{ $slot }}
                     </div>

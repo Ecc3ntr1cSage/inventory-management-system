@@ -1,11 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-center gap-3">
-            <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-success/10 text-success">
                 <i class="ph ph-user text-xl leading-none"></i>
             </div>
             <div>
-                <h2 class="text-2xl font-bold leading-tight tracking-tight text-foreground">
+                <h2 class="page-title">
                     {{ __('Profile') }}
                 </h2>
                 <p class="text-sm text-muted-foreground">Urus maklumat akaun dan keselamatan</p>

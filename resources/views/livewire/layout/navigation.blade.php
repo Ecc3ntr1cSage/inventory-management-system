@@ -1,7 +1,7 @@
 <?php
 
 use App\Livewire\Actions\Logout;
-use Livewire\Volt\Component;
+use Livewire\Component;
 
 new class extends Component
 {
@@ -23,7 +23,7 @@ new class extends Component
             <x-application-logo class="h-8 w-8 text-primary" />
             <span class="text-sm font-bold tracking-tight text-sidebar-foreground">{{ config('app.name', 'InvMS') }}</span>
         </a>
-        <button type="button" @click="open = true" class="inline-flex h-10 w-10 items-center justify-center rounded-lg text-sidebar-foreground/70 transition hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
+        <button type="button" @click="open = true" class="inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg text-sidebar-foreground/70 transition hover:bg-sidebar-accent hover:text-sidebar-accent-foreground" aria-label="Buka menu navigasi">
             <i class="ph ph-list text-xl leading-none"></i>
         </button>
     </div>
@@ -39,7 +39,7 @@ new class extends Component
                 <x-application-logo class="h-8 w-8 text-primary" />
                 <span class="text-sm font-bold tracking-tight text-sidebar-foreground">{{ config('app.name', 'InvMS') }}</span>
             </a>
-            <button type="button" @click="open = false" class="inline-flex h-10 w-10 items-center justify-center rounded-lg text-sidebar-foreground/70 transition hover:bg-sidebar-accent">
+            <button type="button" @click="open = false" class="inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg text-sidebar-foreground/70 transition hover:bg-sidebar-accent" aria-label="Tutup menu navigasi">
                 <i class="ph ph-x text-xl leading-none"></i>
             </button>
         </div>
@@ -59,7 +59,7 @@ new class extends Component
             <x-application-logo class="h-8 w-8 text-primary" />
             <span class="flex flex-col">
                 <span class="text-sm font-bold leading-none tracking-tight text-sidebar-foreground">{{ config('app.name', 'InvMS') }}</span>
-                <span class="mt-0.5 text-[11px] text-sidebar-foreground/50">Sistem Inventori &amp; Aset</span>
+                <span class="mt-1 font-mono text-[10px] uppercase tracking-widest text-sidebar-foreground/45">Sistem Inventori &amp; Aset</span>
             </span>
         </div>
 
