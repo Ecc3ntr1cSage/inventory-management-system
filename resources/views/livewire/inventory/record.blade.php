@@ -1,167 +1,165 @@
 <x-slot name="header">
-    <h2 class="text-xl font-semibold leading-tight text-foreground">
-        {{ $stock->name }}
-    </h2>
-</x-slot>
-<div class="max-w-5xl p-2 mx-auto my-8 space-y-3 md:p-0">
-    <div class="w-fit">
-        <a href="{{ route('inventory.listing') }}" wire:navigate>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor"
-                class="p-1 transition-all rounded-full w-7 h-7 hover:bg-accent hover:-translate-x-1">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-            </svg>
-        </a>
-    </div>
-    <div class="flex items-center justify-between">
-        <p class="my-2">Perihal Stok: {{ $stock->name }}</p>
+    <div class="flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+            <a href="{{ route('inventory.listing') }}" wire:navigate
+                class="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-card text-muted-foreground shadow-sm transition hover:bg-accent hover:text-accent-foreground"
+                aria-label="Kembali ke senarai">
+                <i class="ph ph-arrow-left text-lg leading-none"></i>
+            </a>
+            <div>
+                <h2 class="text-2xl font-bold leading-tight tracking-tight text-foreground">
+                    {{ $stock->name }}
+                </h2>
+                <p class="text-sm text-muted-foreground">Sejarah pergerakan stok</p>
+            </div>
+        </div>
         <x-danger-button x-on:click.prevent="$dispatch('open-modal', 'delete-stock-confirmation')">
+            <i class="ph ph-trash text-base leading-none"></i>
             Delete
         </x-danger-button>
-        <x-modal name="delete-stock-confirmation" maxWidth="sm">
-            <div class="p-6">
-                <h2 class="text-base font-medium text-foreground">
-                    {{ __('Confirm Stock Deletion') }}
-                </h2>
-                <div class="flex items-center justify-end gap-2 mt-4">
-                    <x-secondary-button x-on:click="$dispatch('close')">
-                        {{ __('Cancel') }}
-                    </x-secondary-button>
-                    <x-primary-button wire:click.prevent="deleteStock({{ $stock->id }})" class="w-24 h-8">
-                        {{ __('Confirm') }}
-                    </x-primary-button>
-                </div>
-            </div>
-        </x-modal>
     </div>
-    <div class="flex items-center gap-2">
-        <select wire:model.live="perPage"
-            class="text-xs transition bg-muted border-none rounded-md focus:ring-2 focus:ring-offset-1 focus:ring-ring">
-            <option value="10">10</option>
-            <option value="20">20</option>
-            <option value="30">30</option>
-            <option value="">Max</option>
-        </select>
-        <x-text-input class="w-48 text-xs" placeholder="Cari no rujukan" wire:model.live.debounce.500ms="search"
-            type="text" />
+</x-slot>
+
+<div class="mx-auto max-w-6xl">
+    {{-- Stock summary --}}
+    <div class="card-surface mb-5 flex flex-wrap items-center justify-between gap-4 px-5 py-4">
+        <div class="flex items-center gap-3">
+            <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <i class="ph ph-boxes text-lg leading-none"></i>
+            </span>
+            <div>
+                <p class="text-sm font-semibold text-foreground">{{ $stock->name }}</p>
+                <p class="text-xs text-muted-foreground">Perihal Stok</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <span class="chip bg-primary/10 text-primary">
+                Baki: <span class="tnum font-bold">{{ number_format($stock->balance) }}</span> unit
+            </span>
+        </div>
+    </div>
+
+    {{-- Delete stock modal --}}
+    <x-modal name="delete-stock-confirmation" maxWidth="sm">
+        <div class="p-6 sm:p-8">
+            <h2 class="text-lg font-bold tracking-tight text-foreground">
+                {{ __('Confirm Stock Deletion') }}
+            </h2>
+            <p class="mt-1 text-sm text-muted-foreground">Tindakan ini tidak boleh dibatalkan.</p>
+            <div class="mt-6 flex items-center justify-end gap-2">
+                <x-secondary-button x-on:click="$dispatch('close')">
+                    {{ __('Cancel') }}
+                </x-secondary-button>
+                <x-danger-button wire:click.prevent="deleteStock({{ $stock->id }})">
+                    {{ __('Confirm') }}
+                </x-danger-button>
+            </div>
+        </div>
+    </x-modal>
+
+    {{-- Toolbar --}}
+    <div class="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div class="flex items-center gap-2">
+            <select wire:model.live="perPage"
+                class="h-10 rounded-lg border border-input bg-card px-3 text-sm text-foreground shadow-sm transition focus:border-ring focus:outline-none focus:ring-2 focus:ring-ring/30">
+                <option value="10">10 / muka</option>
+                <option value="20">20 / muka</option>
+                <option value="30">30 / muka</option>
+                <option value="">Semua</option>
+            </select>
+            <div class="relative">
+                <i class="ph ph-magnifying-glass pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-base leading-none text-muted-foreground"></i>
+                <x-text-input class="w-full pl-10 pr-3.5 sm:w-56" placeholder="Cari no rujukan" wire:model.live.debounce.500ms="search" type="text" />
+            </div>
+        </div>
         @if(count($indexes) > 0)
         <button wire:click.prevent="exportPDF"
-            class="p-1 transition bg-muted rounded-md hover:ring-2 hover:ring-ring">
-            <span class="p-1 font-medium tracking-wide">PDF</span>
+            class="inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-border bg-card px-3.5 text-sm font-semibold text-foreground shadow-sm transition hover:bg-accent">
+            <i class="ph ph-file-pdf text-base leading-none text-destructive"></i>
+            PDF
         </button>
         @endif
     </div>
-    <div class="my-4 overflow-x-auto rounded-lg">
-        <table class="w-full mb-4 text-xs text-left text-foreground rounded-lg table-auto">
-            <thead class="text-xs font-medium uppercase bg-muted border-b-2 border-border">
-                <tr>
-                    <th rowspan="2" class="px-2 py-2 tracking-wide ">
-                        <div class="flex">
-                            Tarikh
-                            <span>
+
+    {{-- History table --}}
+    <div class="card-surface overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm">
+                <thead class="text-[11px] font-bold uppercase tracking-widest text-muted-foreground">
+                    <tr class="border-b border-border bg-muted/40">
+                        <th rowspan="2" class="px-4 py-3">
+                            <span class="inline-flex items-center gap-1">
+                                Tarikh
                                 @if ($this->direction == 'desc')
-                                <svg wire:click="sort('asc')" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                    class="w-6 h-4 cursor-pointer hover:text-primary">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M15.75 17.25L12 21m0 0l-3.75-3.75M12 21V3" />
-                                </svg>
+                                <button wire:click="sort('asc')" class="text-primary"><i class="ph ph-caret-down text-xs leading-none"></i></button>
                                 @else
-                                <svg wire:click="sort('desc')" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                    class="w-6 h-4 cursor-pointer hover:text-primary">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M8.25 6.75L12 3m0 0l3.75 3.75M12 3v18" />
-                                </svg>
+                                <button wire:click="sort('desc')" class="text-primary"><i class="ph ph-caret-up text-xs leading-none"></i></button>
                                 @endif
                             </span>
-                        </div>
-                    </th>
-                    <th rowspan="2" class="px-2 py-2 tracking-wide">
-                        No rujukan BTB/BPPS
-                    </th>
-                    <th colspan="4" class="px-2 py-2 tracking-wide text-center">
-                        Kuantiti
-                    </th>
-                    <th rowspan="2" class="px-2 py-2 tracking-wide text-center">
-                        Nama
-                    </th>
-                    <th rowspan="2" class="px-2 py-2 tracking-wide">
-
-                    </th>
-                </tr>
-                <tr class="text-center">
-                    <th class="px-2 py-2 tracking-wide">
-                        Terima
-                    </th>
-                    <th class="px-2 py-2 tracking-wide">
-                        Seunit (RM)
-                    </th>
-                    <th class="px-2 py-2 tracking-wide">
-                        Keluar
-                    </th>
-                    <th class="px-2 py-2 tracking-wide">
-                        Baki
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($indexes as $index)
-                <tr wire:loading.class="opacity-50" wire:key="{{ $index->id }}" class="transition hover:bg-accent">
-                    <td class="px-2 py-2">
-                        {{ $index->date }}
-                    </td>
-                    <td class="px-2 py-2">
-                        {{ $index->reference_no }}
-                    </td>
-                    <td class="px-2 py-2 text-center">
-                        {{ $index->in_quantity }}
-                    </td>
-                    <td class="px-2 py-2 text-center">
-                        {{ $index->unit_price }}
-                    </td>
-                    <td class="px-2 py-2 text-center">
-                        {{ $index->out_quantity }}
-                    </td>
-                    <td class="px-2 py-2 text-center">
-                        {{ $index->balance }}
-                    </td>
-                    <td class="px-2 py-2">
-                        {{ $index->name }}
-                    </td>
-                    <td class="px-2 py-2">
-                        @can('admin')
-                        <button type="button"
-                            x-on:click.prevent="$dispatch('open-modal', 'delete-index-confirmation-{{ $index->id }}')"
-                            class="p-1 rounded-full hover:bg-destructive/50">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                stroke="currentColor" class="w-4 h-4">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                            </svg>
-                        </button>
-                        <x-modal name="delete-index-confirmation-{{ $index->id }}" maxWidth="sm">
-                            <div class="p-6">
-                                <h2 class="text-base font-medium text-foreground">
-                                    {{ __('Confirm Index Deletion') }}
-                                </h2>
-                                <div class="flex items-center justify-end gap-2 mt-4">
-                                    <x-secondary-button x-on:click="$dispatch('close')">
-                                        {{ __('Cancel') }}
-                                    </x-secondary-button>
-                                    <x-primary-button wire:click.prevent="deleteIndex({{ $index->id }})"
-                                        class="w-24 h-8">
-                                        {{ __('Confirm') }}
-                                    </x-primary-button>
+                        </th>
+                        <th rowspan="2" class="px-4 py-3">No rujukan BTB/BPPS</th>
+                        <th colspan="4" class="border-b border-border px-4 py-3 text-center">Kuantiti</th>
+                        <th rowspan="2" class="px-4 py-3">Nama</th>
+                        <th rowspan="2" class="px-4 py-3"></th>
+                    </tr>
+                    <tr>
+                        <th class="px-4 py-2.5 text-center">Terima</th>
+                        <th class="px-4 py-2.5 text-center">Seunit (RM)</th>
+                        <th class="px-4 py-2.5 text-center">Keluar</th>
+                        <th class="px-4 py-2.5 text-center">Baki</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-border">
+                    @forelse($indexes as $index)
+                    <tr wire:loading.class="opacity-50" wire:key="{{ $index->id }}" class="transition hover:bg-muted/40">
+                        <td class="tnum px-4 py-3">{{ $index->date }}</td>
+                        <td class="px-4 py-3 font-medium text-foreground">{{ $index->reference_no }}</td>
+                        <td class="tnum px-4 py-3 text-center font-semibold text-emerald-600 dark:text-emerald-400">{{ $index->in_quantity }}</td>
+                        <td class="tnum px-4 py-3 text-center text-muted-foreground">{{ $index->unit_price }}</td>
+                        <td class="tnum px-4 py-3 text-center font-semibold text-orange-600 dark:text-orange-400">{{ $index->out_quantity }}</td>
+                        <td class="tnum px-4 py-3 text-center font-bold text-foreground">{{ $index->balance }}</td>
+                        <td class="px-4 py-3">{{ $index->name }}</td>
+                        <td class="px-4 py-3 text-right">
+                            @can('admin')
+                            <button type="button"
+                                x-on:click.prevent="$dispatch('open-modal', 'delete-index-confirmation-{{ $index->id }}')"
+                                class="inline-flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition hover:bg-destructive/10 hover:text-destructive"
+                                aria-label="Padam rekod">
+                                <i class="ph ph-trash text-base leading-none"></i>
+                            </button>
+                            <x-modal name="delete-index-confirmation-{{ $index->id }}" maxWidth="sm">
+                                <div class="p-6 sm:p-8">
+                                    <h2 class="text-lg font-bold tracking-tight text-foreground">
+                                        {{ __('Confirm Index Deletion') }}
+                                    </h2>
+                                    <p class="mt-1 text-sm text-muted-foreground">Tindakan ini tidak boleh dibatalkan.</p>
+                                    <div class="mt-6 flex items-center justify-end gap-2">
+                                        <x-secondary-button x-on:click="$dispatch('close')">
+                                            {{ __('Cancel') }}
+                                        </x-secondary-button>
+                                        <x-danger-button wire:click.prevent="deleteIndex({{ $index->id }})">
+                                            {{ __('Confirm') }}
+                                        </x-danger-button>
+                                    </div>
                                 </div>
-                            </div>
-                        </x-modal>
-                        @endcan
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+                            </x-modal>
+                            @endcan
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="8" class="px-5 py-14 text-center">
+                            <i class="ph ph-clipboard-text text-3xl leading-none text-muted-foreground/40"></i>
+                            <p class="mt-3 text-sm text-muted-foreground">Tiada rekod dijumpai</p>
+                        </td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="mt-4">
         {{ $indexes->links(data:['scrollTo' => false]) }}
     </div>
 </div>

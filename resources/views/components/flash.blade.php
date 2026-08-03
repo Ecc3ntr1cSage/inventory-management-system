@@ -1,19 +1,23 @@
 @if (session()->has('message'))
-    <div x-cloak
-        class="fixed z-50 inset-x-0 top-2 w-fit mx-auto p-[3px] text-white transition rounded-md bg-gradient-to-tr from-orange-600 via-rose-600 to-orange-600"
-        role="alert" x-data="{ open: true }" x-bind:class="open ? '' : 'opacity-0'" x-init="() => { setTimeout(() => { open = false }, 3000); }"
-        x-delay="1000">
-        <div class="p-4 bg-muted rounded-sm">
-            <span class="inline-block mr-5 text-xl align-middle">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-6 h-6 text-muted-foreground">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.640 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
-                </svg>
+    <div x-cloak x-data="{ open: true }"
+        class="fixed inset-x-0 top-4 z-50 mx-auto w-fit max-w-sm px-4"
+        role="alert"
+        x-show="open"
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0 -translate-y-4"
+        x-transition:enter-end="opacity-100 translate-y-0"
+        x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        x-init="() => { setTimeout(() => { open = false }, 3500); }">
+        <div class="flex items-start gap-3 rounded-xl border border-border bg-card px-4 py-3 shadow-lg">
+            <span class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                <i class="ph ph-check text-sm leading-none"></i>
             </span>
-            <span class="inline-block mr-8 text-foreground align-middle">
-                {{ session('message') }}
-            </span>
+            <p class="text-sm font-medium text-card-foreground">{{ session('message') }}</p>
+            <button type="button" @click="open = false" class="ml-auto -mr-1 mt-0.5 text-muted-foreground transition hover:text-foreground" aria-label="Tutup">
+                <i class="ph ph-x text-base leading-none"></i>
+            </button>
         </div>
     </div>
 @endif

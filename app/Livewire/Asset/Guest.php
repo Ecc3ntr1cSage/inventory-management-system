@@ -8,8 +8,10 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 use App\Models\User;
 use App\Notifications\GuestApplicationSubmitted;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
+#[Layout('layouts.public')]
 class Guest extends Component
 {
     public $guest_name;

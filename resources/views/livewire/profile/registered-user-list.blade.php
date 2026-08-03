@@ -33,40 +33,34 @@ new class extends Component
 }; ?>
 
 <section>
+    <div class="flex items-center justify-between">
+        <h3 class="text-sm font-bold tracking-tight text-foreground">Senarai Pengguna Berdaftar</h3>
+        <span class="chip bg-muted text-muted-foreground">{{ $users->total() }} pengguna</span>
+    </div>
     <div class="overflow-x-auto">
-        <table class="w-full my-4 text-xs text-left text-foreground rounded-lg table-auto">
-            <thead class="text-xs font-medium uppercase border-b-2 border-border bg-muted">
+        <table class="mt-4 w-full text-left text-sm">
+            <thead class="border-b border-border text-[11px] font-bold uppercase tracking-widest text-muted-foreground">
                 <tr>
-                    <th class="px-2 py-2 tracking-wide ">
-                        Name
-                    </th>
-                    <th class="px-2 py-2 tracking-wide">
-                        Email
-                    </th>
-                    <th class="px-2 py-2 tracking-wide text-center">
-                        Role
-                    </th>
-                    <th rowspan="2" class="px-2 py-2 tracking-wide">
-                        Date joined
-                    </th>
-                    <th rowspan="2" class="px-2 py-2 tracking-wide">
-
-                    </th>
+                    <th class="px-3 py-3 tracking-wide">Name</th>
+                    <th class="px-3 py-3 tracking-wide">Email</th>
+                    <th class="px-3 py-3 text-center tracking-wide">Role</th>
+                    <th class="px-3 py-3 tracking-wide">Date joined</th>
+                    <th class="px-3 py-3 tracking-wide"></th>
                 </tr>
             </thead>
-            <tbody class="bg-card">
+            <tbody class="divide-y divide-border">
                 @foreach($users as $user)
-                <tr wire:key="{{ $user->id }}" class="transition hover:bg-accent">
-                    <td class="px-2 py-2">
+                <tr wire:key="{{ $user->id }}" class="transition hover:bg-muted/50">
+                    <td class="px-3 py-3 font-semibold text-foreground">
                         {{ $user->name }}
                     </td>
-                    <td class="px-2 py-2 truncate">
+                    <td class="truncate px-3 py-3 text-muted-foreground">
                         {{ $user->email }}
                     </td>
-                    <td class="px-2 py-2 text-center">
-                        {{ $user->role }}
+                    <td class="px-3 py-3 text-center">
+                        <span class="chip bg-muted text-muted-foreground">{{ $user->role }}</span>
                     </td>
-                    <td class="px-2 py-2">
+                    <td class="px-3 py-3 text-muted-foreground">
                         {{ $user->created_at }}
                     </td>
                     <td class="px-2 py-2">
@@ -74,20 +68,16 @@ new class extends Component
                         @else
                         <button type="button"
                             x-on:click.prevent="$dispatch('open-modal', 'delete-user-confirmation-{{ $user->id }}')"
-                            class="p-1 rounded-full hover:bg-destructive/50">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                stroke="currentColor" class="w-4 h-4">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                            </svg>
+                            class="inline-flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition hover:bg-destructive/10 hover:text-destructive">
+                            <i class="ph ph-trash text-base leading-none"></i>
                         </button>
                         @endif
                         <x-modal name="delete-user-confirmation-{{ $user->id }}" :show="$errors->isNotEmpty()" focusable
                             maxWidth="md">
                             <form wire:submit="deleteUser({{ $user->id }})" class="p-6">
                                 @csrf
-                                <h2 class="text-lg font-medium text-foreground">
-                                    {{ __('Delete User COnfirmation?') }}
+                                <h2 class="text-lg font-bold tracking-tight text-foreground">
+                                    {{ __('Delete User Confirmation?') }}
                                 </h2>
 
                                 <p class="mt-1 text-muted-foreground">

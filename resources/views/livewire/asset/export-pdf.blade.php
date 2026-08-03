@@ -48,7 +48,7 @@
 
 <body>
     @foreach($applications as $application)
-    <h3>BORANG PERMOHONONAN PERGERAKAN/PINJAMAN ASET ALIH</h3>
+    <h3>BORANG PERMOHONAN PERGERAKAN/PINJAMAN ASET ALIH</h3>
     <table class="table-top">
         <tbody>
             <tr>

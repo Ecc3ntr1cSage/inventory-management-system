@@ -16,136 +16,59 @@ new class extends Component
     }
 }; ?>
 
-<nav x-data="{ open: false }" class="bg-card border-b border-border">
-    <!-- Primary Navigation Menu -->
-    <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex">
-                <!-- Logo -->
-                {{-- <div class="flex items-center shrink-0">
-                    <a href="{{ route('dashboard') }}" wire:navigate>
-                        <x-application-logo class="block w-auto text-foreground fill-current h-9" />
-                    </a>
-                </div> --}}
+<nav x-data="{ open: false }" class="lg:fixed lg:inset-y-0 lg:left-0 lg:z-40 lg:flex lg:w-64 lg:flex-col lg:border-r lg:border-sidebar-border lg:bg-sidebar">
+    {{-- Mobile top bar --}}
+    <div class="flex h-16 items-center justify-between border-b border-sidebar-border bg-sidebar px-4 lg:hidden">
+        <a href="{{ route('dashboard') }}" wire:navigate class="flex items-center gap-2.5">
+            <x-application-logo class="h-8 w-8 text-primary" />
+            <span class="text-sm font-bold tracking-tight text-sidebar-foreground">{{ config('app.name', 'InvMS') }}</span>
+        </a>
+        <button type="button" @click="open = true" class="inline-flex h-10 w-10 items-center justify-center rounded-lg text-sidebar-foreground/70 transition hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
+            <i class="ph ph-list text-xl leading-none"></i>
+        </button>
+    </div>
 
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    @can('both')
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
-                        {{ __('Menu Utama') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('inventory.entry')"
-                        :active="request()->routeIs('inventory.entry', 'inventory.listing', 'inventory.record')"
-                        wire:navigate>
-                        {{ __('Inventori') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('asset.submission')"
-                        :active="request()->routeIs('asset.submission', 'asset.listing', 'asset.record')"
-                        wire:navigate>
-                        {{ __('Aset Alih') }}
-                    </x-nav-link>
-                    @endcan
-                    @can('user')
-                    <x-nav-link :href="route('asset.request')" :active="request()->routeIs('asset.request')"
-                        wire:navigate>
-                        {{ __('Borang Permohonan') }}
-                    </x-nav-link>
-                    @endcan
-                </div>
-            </div>
+    {{-- Mobile drawer overlay --}}
+    <div x-show="open" x-cloak x-transition.opacity class="fixed inset-0 z-50 bg-foreground/40 backdrop-blur-sm lg:hidden" @click="open = false"></div>
 
-            <!-- Settings Dropdown -->
-            @auth
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
-                <x-dropdown align="right" width="48">
-                    <x-slot name="trigger">
-                        <button
-                            class="inline-flex items-center px-3 py-2 font-medium leading-4 text-muted-foreground transition duration-150 ease-in-out bg-card border border-transparent rounded-md hover:text-foreground focus:outline-none">
-                            <div x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name"
-                                x-on:profile-updated.window="name = $event.detail.name"></div>
+    {{-- Mobile drawer --}}
+    <div x-show="open" x-cloak x-transition:enter="transition ease-out duration-200" x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="translate-x-0" x-transition:leave-end="-translate-x-full"
+        class="fixed inset-y-0 left-0 z-50 flex w-72 flex-col border-r border-sidebar-border bg-sidebar lg:hidden">
+        <div class="flex h-16 items-center justify-between border-b border-sidebar-border px-4">
+            <a href="{{ route('dashboard') }}" wire:navigate class="flex items-center gap-2.5">
+                <x-application-logo class="h-8 w-8 text-primary" />
+                <span class="text-sm font-bold tracking-tight text-sidebar-foreground">{{ config('app.name', 'InvMS') }}</span>
+            </a>
+            <button type="button" @click="open = false" class="inline-flex h-10 w-10 items-center justify-center rounded-lg text-sidebar-foreground/70 transition hover:bg-sidebar-accent">
+                <i class="ph ph-x text-xl leading-none"></i>
+            </button>
+        </div>
 
-                            <div class="ms-1">
-                                <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd"
-                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                        </button>
-                    </x-slot>
+        <div class="flex-1 space-y-1 overflow-y-auto p-3">
+            @include('livewire.layout.nav-items')
+        </div>
 
-                    <x-slot name="content">
-                        <x-dropdown-link :href="route('profile')" wire:navigate>
-                            {{ __('Profil') }}
-                        </x-dropdown-link>
-
-                        <!-- Authentication -->
-                        <button wire:click="logout" class="w-full text-start">
-                            <x-dropdown-link>
-                                {{ __('Log Out') }}
-                            </x-dropdown-link>
-                        </button>
-                    </x-slot>
-                </x-dropdown>
-            </div>
-            @endauth
-
-            <!-- Hamburger -->
-            <div class="flex items-center -me-2 sm:hidden">
-                <button x-on:click.prevent="open = ! open"
-                    class="inline-flex items-center justify-center p-2 text-muted-foreground transition duration-150 ease-in-out rounded-md hover:text-foreground hover:bg-accent focus:outline-none focus:bg-accent focus:text-foreground">
-                    <svg class="w-6 h-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex"
-                            stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round"
-                            stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
+        <div class="border-t border-sidebar-border p-3">
+            @include('livewire.layout.nav-footer')
         </div>
     </div>
 
-    <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
-                {{ __('Menu Utama') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('inventory.entry')" :active="request()->routeIs('inventory.entry')"
-                wire:navigate>
-                {{ __('Inventori') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('asset.submission')" :active="request()->routeIs('asset.submission')"
-                wire:navigate>
-                {{ __('Aset Alih') }}
-            </x-responsive-nav-link>
+    {{-- Desktop sidebar --}}
+    <div class="hidden flex-1 flex-col lg:flex">
+        <div class="flex h-16 items-center gap-2.5 border-b border-sidebar-border px-5">
+            <x-application-logo class="h-8 w-8 text-primary" />
+            <span class="flex flex-col">
+                <span class="text-sm font-bold leading-none tracking-tight text-sidebar-foreground">{{ config('app.name', 'InvMS') }}</span>
+                <span class="mt-0.5 text-[11px] text-sidebar-foreground/50">Sistem Inventori &amp; Aset</span>
+            </span>
         </div>
 
-        <!-- Responsive Settings Options -->
-        @auth
-        <div class="pt-4 pb-1 border-t border-border">
-            <div class="px-4">
-                <div class="text-base font-medium text-foreground"
-                    x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name"
-                    x-on:profile-updated.window="name = $event.detail.name"></div>
-                <div class="font-medium text-muted-foreground">{{ auth()->user()->email }}</div>
-            </div>
-
-            <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile')" wire:navigate>
-                    {{ __('Profil') }}
-                </x-responsive-nav-link>
-
-                <!-- Authentication -->
-                <button wire:click="logout" class="w-full text-start">
-                    <x-responsive-nav-link>
-                        {{ __('Log Out') }}
-                    </x-responsive-nav-link>
-                </button>
-            </div>
+        <div class="flex-1 space-y-1 overflow-y-auto p-3">
+            @include('livewire.layout.nav-items')
         </div>
-        @endauth
+
+        <div class="border-t border-sidebar-border p-3">
+            @include('livewire.layout.nav-footer')
+        </div>
     </div>
 </nav>

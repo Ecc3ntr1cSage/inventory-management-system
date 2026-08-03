@@ -60,10 +60,10 @@ new class extends Component
 
 <section>
     <header>
-        <h2 class="text-lg font-medium text-foreground">
+        <h2 class="text-lg font-bold tracking-tight text-foreground">
             {{ __('Register New User') }}
         </h2>
-        <p class="mt-1 text-muted-foreground">
+        <p class="mt-1 text-sm text-muted-foreground">
             {{ __('Exclusively for administrator to register new account.') }}
         </p>
     </header>
@@ -82,7 +82,7 @@ new class extends Component
         </div>
         <div>
             <x-input-label for="role" :value="__('Role')" />
-            <select wire:model="role" class="block w-full border-border rounded-md shadow-sm focus:border-ring focus:ring-ring">
+            <select wire:model="role" class="mt-1 block h-10 w-full rounded-lg border border-input bg-card px-3.5 text-sm text-foreground shadow-sm transition focus:border-ring focus:outline-none focus:ring-2 focus:ring-ring/30">
                 <option value="" selected disabled>Select role</option>
                 <option value="admin">Admin</option>
                 <option value="staff">Staff</option>

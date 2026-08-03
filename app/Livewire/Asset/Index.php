@@ -2,9 +2,11 @@
 
 namespace App\Livewire\Asset;
 
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 use App\Models\Application;
 
+#[Layout('layouts.public')]
 class Index extends Component
 {
 	public $applications;

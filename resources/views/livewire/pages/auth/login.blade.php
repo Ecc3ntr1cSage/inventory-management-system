@@ -25,23 +25,28 @@ new #[Layout('layouts.guest')] class extends Component
 }; ?>
 
 <div>
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold tracking-tight text-foreground">Log Masuk</h1>
+        <p class="mt-1 text-sm text-muted-foreground">Sila masukkan kelayakan anda untuk meneruskan.</p>
+    </div>
+
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form wire:submit="login">
+    <form wire:submit="login" class="space-y-5">
         @csrf
         <!-- Email Address -->
         <div>
             <x-input-label for="email" :value="__('Email')" />
-            <x-text-input wire:model="form.email" id="email" class="block w-full mt-1" type="text" name="email"
+            <x-text-input wire:model="form.email" id="email" class="mt-1 block w-full" type="text" name="email"
                 autofocus autocomplete="username" />
             <x-input-error :messages="$errors->get('form.email')" class="mt-2" />
         </div>
 
         <!-- Password -->
-        <div class="mt-4">
+        <div>
             <x-input-label for="password" :value="__('Password')" />
-            <x-text-input wire:model="form.password" id="password" class="block w-full mt-1" type="password"
+            <x-text-input wire:model="form.password" id="password" class="mt-1 block w-full" type="password"
                 name="password" autocomplete="current-password" />
             <x-input-error :messages="$errors->get('form.password')" class="mt-2" />
         </div>
@@ -55,7 +60,7 @@ new #[Layout('layouts.guest')] class extends Component
             </label>
         </div> --}}
 
-        <div class="flex items-center justify-end mt-4">
+        <div class="flex items-center justify-between pt-1">
             @if (Route::has('password.request'))
             {{-- <a
                 class="text-muted-foreground underline rounded-md hover:text-foreground focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ring"
@@ -64,20 +69,20 @@ new #[Layout('layouts.guest')] class extends Component
             </a>--}}
             @endif
 
-            <a class="text-muted-foreground underline rounded-md hover:text-foreground focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ring"
+            <a class="text-sm font-medium text-primary underline-offset-4 transition hover:underline"
                 href="{{ route('register') }}" wire:navigate>
                 {{ __('Daftar Akaun') }}
             </a>
 
-            <x-primary-button class="w-24 h-8 ms-3">
+            <x-primary-button class="ms-3">
                 {{ __('Log in') }}
             </x-primary-button>
         </div>
 
-        <div class="mt-4">
-            <div class="my-4 border-t border-border"></div>
-                <a href="{{ url('guest/request') }}" wire:navigate
-                class="w-full inline-flex justify-center items-center rounded-md h-8 border border-primary text-primary shadow-sm hover:bg-primary/5">
+        <div class="border-t border-border pt-4">
+            <a href="{{ url('guest/request') }}" wire:navigate
+                class="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-primary/30 px-4 py-2.5 text-sm font-semibold text-primary shadow-sm transition hover:bg-primary/5">
+                <i class="ph ph-clipboard-text text-base leading-none"></i>
                 {{ __('Buat Permohonan') }}
             </a>
         </div>
