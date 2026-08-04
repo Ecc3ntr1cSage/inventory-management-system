@@ -75,6 +75,14 @@ npm run dev
 
 Open `http://127.0.0.1:8000`. For a production asset build, run `npm run build` instead of `npm run dev`.
 
+### Deploy to Render
+
+Create a Render Web Service using the repository's `Dockerfile`. Set `APP_KEY` to a generated Laravel key and set `APP_URL` to the Render service URL. Render supplies `PORT` automatically.
+
+The default SQLite database is stored inside the container and is lost when the service is redeployed. Use a Render persistent disk with `DB_DATABASE=/var/www/html/database/database.sqlite`, or configure an external MySQL/PostgreSQL database for persistent data.
+
+After the first deploy, run `php artisan db:seed --force` once from the Render Shell to load the demo accounts and records.
+
 To recreate the deterministic demo database:
 
 ```bash
