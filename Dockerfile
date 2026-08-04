@@ -38,4 +38,4 @@ RUN mkdir -p storage/framework/cache storage/framework/sessions storage/framewor
     && php artisan livewire:publish --assets
 
 EXPOSE 10000
-CMD ["sh", "-c", "php artisan migrate:fresh -seed --force && php artisan serve --host=0.0.0.0 --port=${PORT:-10000}"]
+CMD ["sh", "-c", "php artisan migrate:fresh --seed --force && php artisan serve --host=0.0.0.0 --port=${PORT:-10000}"]
